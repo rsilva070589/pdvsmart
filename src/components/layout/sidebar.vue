@@ -46,7 +46,7 @@
                     <ul id="dashboard" class="collapse submenu list-unstyled" data-bs-parent="#sidebar">
                          
                         <li>
-                            <router-link to="/index2" @click="toggleMobileMenu">
+                            <router-link to="/" @click="toggleMobileMenu">
                                 {{ $t('analytics') }}
                             </router-link>
                         </li>
@@ -77,15 +77,7 @@
                             <span>{{ $t('tables') }}</span>
                         </div>
                     </router-link>
-                </li>
-
-                
-
-              
-  
-
-         
-
+                </li> 
                
             </perfect-scrollbar>
         </nav>

@@ -13,40 +13,46 @@
                     </div>
                 </li>
             </ul>
-
-         
         </teleport>
  
+        <div>
+ 
         
-  <div   class="table-light table-responsive" 
-        style="margin: 0px; display: flex; padding: 5px;">
-    <div   style="margin: 0px;  padding: 10px;" >
+        </div>
+        
+   
+  <div   class="row layout-top-spacing" 
+        style="margin: 0px; display: flex; padding: 0px;">
+        <div style="margin: 0px;  padding: 2px; width: 200px;" > 
         Empresa
-            <select   class="mb-4 form-select form-select-lg w-100"   
+            <select   class="mb-4 form-select form-select-lg w-30"   
                     v-model="store.filtro.empresa"            
                     >
-                    <option value="CENTRAL">TODAS</option>
-                    <option value="CAETES">CAETES</option>
-                    <option value="CURITIBA">CURITIBA</option>
-                    <option value="AFONSOPENA">AFONSOPENA</option>
+                    <option 
+                    v-for="emp, indexEmp in storeLogin.empresas.dadosempresa"
+                    :key="indexEmp"
+                    :value="emp.identificacaointegracao">{{emp.identificacaointegracao}}</option>
+               
             </select>
         </div> 
 
-        <div style="margin: 0px;  padding: 10px; width: 200px;" > 
+        <div style="margin: 0px;  padding: 2px; width: 200px;" > 
               Data Inicial
             <input type="date" v-model="store.filtro.dataInicial"    class="mb-4 form-data form-select-lg w-100"> 
         </div> 
 
-        <div style="margin: 0px;  padding: 10px; width: 200px;" >
+        <div style="margin: 0px;  padding: 2px; width: 200px;" >
             Data Final
             <input 
                 type="date" data-date-format="DD MM YYYY" v-model="store.filtro.dataFinal"  class="mb-4 form-data form-select-lg w-100" 
                 >  
         </div> 
 
-        <div style="margin: 0px;  padding: 10px;" >
-            <button class="btn btn-primary mt-4" @click="filtros()"  >ATUALIZAR</button>
-        </div>
+        <div style="margin: 2px;  padding: 2px; width: 200px;" >
+           <div style="margin-top: 20px; height: 50px;"
+                class="btn btn-primary" @click="filtros()"  >ATUALIZAR</div>
+        </div> 
+ 
   </div>
   
       
@@ -196,8 +202,12 @@
                     <div class="widget-heading">
                         <h5>Contas</h5>
                         <apex-chart v-if="store.relVendedores.length > 0" height="350" type="donut" 
-                                                     :options="options_7" 
-                                                     :series="[store.relContas[0].qtdecontasavencer,store.relContas[0].qtdecontasvencidas]">
+                                                     :options="options_7"                                                     
+                                                     :series="[
+                                                               store.relContas[0].qtdecontasavencer,
+                                                               store.relContas[0].qtdecontasvencidas
+                                                              ]">
+                                                     
                                                     
                         </apex-chart>
                     </div>
@@ -219,7 +229,7 @@
                                     <h4>Ranking Vendedores</h4>
                                     <apex-chart v-if="store.relVendedores.length > 0" height="350" type="bar" 
                                                      :options="options_5" 
-                                                     :series=" [{name: 'vendas' ,data: store.relVendedores.map(x => x.quantidadevenda)}] ">
+                                                     :series="[{name: 'vendas' ,data: store.relVendedores.map(x => x.quantidadevenda)}]">
                                     </apex-chart>
                                 </div>
                             </div>
@@ -330,20 +340,28 @@
   }
 
 
-    store.filtro= {
+    store.filtro= { 
         empresa: 'CENTRAL',
-        dataInicial: '2023-08-01',
-        dataFinal: '2023-08-15'
+        dataInicial:  datafiltroFormatada(new Date()),
+        dataFinal:    datafiltroFormatada(new Date())
     }
 
     function filtros(){
-        getTypeRel('BancoDadosLojaoModa.fdb',store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,1)
-        getTypeRel('BancoDadosLojaoModa.fdb',store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,2)
-        getTypeRel('BancoDadosLojaoModa.fdb',store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,3)
-        getTypeRel('BancoDadosLojaoModa.fdb',store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,4)
+        getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,1)
+        getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,2)
+        getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,3)
+        getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,4)
     }
     
-    
+    function compare( a, b ) {
+        if ( a.quantidadevenda > b.quantidadevenda ){
+            return -1;
+        }
+        if ( a.quantidadevenda < b.quantidadevenda ){
+            return 1;
+        }
+        return 0;
+        }
     
     async function getTypeRel (DataBaseCliente,ComboEmpresas,DataInicial,DataFinal,TypeRel) {
             let data = JSON.stringify({
@@ -373,7 +391,7 @@
                     store.relLoja = response.data.dados 
                 }
                 if(TypeRel == 2){
-                    store.relVendedores = response.data.dados 
+                    store.relVendedores = response.data.dados.map(x=> x).sort(compare)
                 }
                 if(TypeRel == 3){ 
                     store.relAnual = response.data.dados 
@@ -390,6 +408,17 @@
 
          
     } 
+ 
+
+    function datafiltroFormatada(d){ 
+    var data =  new Date(d),
+        dia  = data.getDate().toString(),
+        diaF = (dia.length == 1) ? '0'+dia : dia,
+        mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+        mesF = (mes.length == 1) ? '0'+mes : mes,
+        anoF = data.getFullYear();
+    return anoF+"-"+mesF+"-"+diaF;
+    }
   
     function dataAtualFormatada(d){ 
     var data =  new Date(d),
@@ -401,6 +430,7 @@
     return diaF+"-"+mesF+"-"+anoF;
     }
 
+    
     function somaValor(array) { 
         var arr =  array     
         var sum = 0; 
@@ -424,16 +454,18 @@
  
   
     //Simple Bar
-  
+   
        //Simple Bar
        const options_5 = computed(() => {
+
+        
  
         return {
             chart:      { toolbar: { show: false } },
-            dataLabels: { enabled: true, formatter: function (val) {return "R$ " +val },style: {fontSize: '11px',colors: ["#000000"]
+            dataLabels: { enabled: true, formatter: function (val) {return val },style: {fontSize: '11px',colors: ["#000000"]
               } },
             plotOptions:{ bar: { horizontal: true,columnWidth: '90%',barHeight: '90%' } },
-            xaxis:      { categories: store.relVendedores.map(x => x.loginfuncionario) },
+            xaxis:      { categories: store.relVendedores.map(x => x.loginfuncionario)  },
             grid:       { borderColor:  '#e0e6ed' },
             tooltip:    { theme:  'light' },
         };
@@ -576,7 +608,7 @@ const chartOptions = computed(() => {
 
 
    const options_71 = {
-    chart: { toolbar: { show: false } },
+    chart: { toolbar: { show: true } },
     responsive: [{ breakpoint: 480, options: { chart: { width: 200 }, legend: { position: 'bottom' } } }]
 }
 
@@ -584,11 +616,13 @@ const options_7 = computed(() => {
      
      return {
         chart: { toolbar: { show: false } },
+        colors: ['#f8ff16','#ff2717'],
+        labels: ['a Vencer', 'Vencidas'],
         responsive: [{ breakpoint: 480, options: { chart: { width: 200 }, legend: { position: 'bottom' } } }]
      };
  });   
 
-    const series_7 = [44, 55]
+    
 
 
 </script>

@@ -146,13 +146,10 @@
     
                 axios.request(config)
                 .then((response) => {
-                console.log(JSON.stringify(response.data)); 
-              
-                //store.empresas?.dadosempresa.push({ "identificacaointegracao": "CENTRAL" },)
-             
+                console.log(JSON.stringify(response.data));  
                 storeLogin.empresas = response.data
-                router.push('/')
-             
+                storeLogin.empresas.dadosempresa.push({ "identificacaointegracao": "CENTRAL" },)
+                router.push('/') 
                 })
                 .catch((error) => {
                 console.log(error);
