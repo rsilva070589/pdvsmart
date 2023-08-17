@@ -1,10 +1,15 @@
 import { createApp } from 'vue';
+
 import App from './App.vue';
-import router from './router';
-import store from './store';
+
+import store from './store'; 
 import { createPinia } from 'pinia'   
+import piniaPluginPersistedState from "pinia-plugin-persistedstate"
 const pinia = createPinia()
 const app = createApp(App);
+import router from './router';
+pinia.use(piniaPluginPersistedState)
+ 
 
 // bootstrap
 import * as bootstrap from 'bootstrap';
@@ -54,4 +59,5 @@ import appSetting from './app-setting';
 window.$appSetting = appSetting;
 window.$appSetting.init();
 
-app.use(store).use(router).use(i18n).use(pinia).use(PerfectScrollbar).use(VueNouislider).use(Maska).use(ClientTable).use(vue3JsonExcel).use(VueFormWizard).use(head).mount('#app');
+
+app.use(pinia).use(store).use(router).use(i18n).use(PerfectScrollbar).use(VueNouislider).use(Maska).use(ClientTable).use(vue3JsonExcel).use(VueFormWizard).use(head).mount('#app');

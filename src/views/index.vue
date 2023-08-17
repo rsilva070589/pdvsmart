@@ -1,5 +1,5 @@
 <template>
-    <div class="layout-px-spacing dash_1">
+    <div class="layout-px-spacing dash_2">
         <teleport to="#breadcrumb">
             <ul class="navbar-nav flex-row">
                 <li>
@@ -14,462 +14,51 @@
                 </li>
             </ul>
 
-            <ul class="navbar-nav flex-row ms-auto">
-                <li class="nav-item more-dropdown">
-                    <div class="dropdown custom-dropdown-icon">
-                        <a href="javascript:;" class="nav-link dropdown-toggle" id="ddlSettings" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span>Settings</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                class="feather feather-chevron-down"
-                            >
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlSettings">
-                            <li><a class="dropdown-item" data-value="Settings" href="javascript:void(0);">Settings</a></li>
-                            <li><a class="dropdown-item" data-value="Mail" href="javascript:void(0);">Mail</a></li>
-                            <li><a class="dropdown-item" data-value="Print" href="javascript:void(0);">Print</a></li>
-                            <li><a class="dropdown-item" data-value="Download" href="javascript:void(0);">Download</a></li>
-                            <li><a class="dropdown-item" data-value="Share" href="javascript:void(0);">Share</a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+         
         </teleport>
+ 
+        
+  <div   class="table-light table-responsive" 
+        style="margin: 0px; display: flex; padding: 5px;">
+    <div   style="margin: 0px;  padding: 10px;" >
+        Empresa
+            <select   class="mb-4 form-select form-select-lg w-100"   
+                    v-model="store.filtro.empresa"            
+                    >
+                    <option value="CENTRAL">TODAS</option>
+                    <option value="CAETES">CAETES</option>
+                    <option value="CURITIBA">CURITIBA</option>
+                    <option value="AFONSOPENA">AFONSOPENA</option>
+            </select>
+        </div> 
+
+        <div style="margin: 0px;  padding: 10px; width: 200px;" > 
+              Data Inicial
+            <input type="date" v-model="store.filtro.dataInicial"    class="mb-4 form-data form-select-lg w-100"> 
+        </div> 
+
+        <div style="margin: 0px;  padding: 10px; width: 200px;" >
+            Data Final
+            <input 
+                type="date" data-date-format="DD MM YYYY" v-model="store.filtro.dataFinal"  class="mb-4 form-data form-select-lg w-100" 
+                >  
+        </div> 
+
+        <div style="margin: 0px;  padding: 10px;" >
+            <button class="btn btn-primary mt-4" @click="filtros()"  >ATUALIZAR</button>
+        </div>
+  </div>
+  
+      
 
         <div class="row layout-top-spacing">
-            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-revenue">
-                    <div class="widget-heading">
-                        <h5>Revenue</h5>
-                        <div class="dropdown btn-group">
-                            <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="feather feather-more-horizontal"
-                                >
-                                    <circle cx="12" cy="12" r="1"></circle>
-                                    <circle cx="19" cy="12" r="1"></circle>
-                                    <circle cx="5" cy="12" r="1"></circle>
-                                </svg>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlRevenue">
-                                <li><a href="javascript:;" class="dropdown-item">Weekly</a></li>
-                                <li><a href="javascript:;" class="dropdown-item">Monthly</a></li>
-                                <li><a href="javascript:;" class="dropdown-item">Yearly</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="widget-content">
-                        <div class="chart-title">Total Profit <span class="text-primary ms-1">$10,840</span></div>
-                        <apex-chart v-if="revenue_options" height="325" type="area" :options="revenue_options" :series="revenue_series"></apex-chart>
-                    </div>
-                </div>
-            </div>
-
             <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-sales-category">
+                <div class="widget widget-statistics">
                     <div class="widget-heading">
-                        <h5>Sales by Category</h5>
-                    </div>
-                    <div class="widget-content">
-                        <apex-chart v-if="sales_donut_options" height="460" type="donut" :options="sales_donut_options" :series="sales_donut_series"></apex-chart>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
-                <div class="widget widget-dailysales">
-                    <div class="widget-heading">
-                        <div>
-                            <h5>Daily sales</h5>
-                            <span class="sub-title">Go to columns for details.</span>
-                        </div>
-                        <div class="w-icon text-warning">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                class="feather feather-dollar-sign"
-                            >
-                                <line x1="12" y1="1" x2="12" y2="23"></line>
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="widget-content">
-                        <apex-chart v-if="daily_sales_options" height="160" type="bar" :options="daily_sales_options" :series="daily_sales_series"></apex-chart>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
-                <div class="widget widget-summary">
-                    <div class="widget-heading">
-                        <h5>Summary</h5>
-                        <div class="dropdown btn-group">
-                            <a href="javascript:;" id="ddlSummary" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="feather feather-more-horizontal"
-                                >
-                                    <circle cx="12" cy="12" r="1"></circle>
-                                    <circle cx="19" cy="12" r="1"></circle>
-                                    <circle cx="5" cy="12" r="1"></circle>
-                                </svg>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlSummary">
-                                <li><a href="javascript:;" class="dropdown-item">View Report</a></li>
-                                <li><a href="javascript:;" class="dropdown-item">Edit Report</a></li>
-                                <li><a href="javascript:;" class="dropdown-item">Mark as Done</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="widget-content">
-                        <div class="summary-list">
-                            <div class="w-icon">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="17"
-                                    height="17"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="feather feather-shopping-bag"
-                                >
-                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                                </svg>
-                            </div>
-                            <div class="w-summary-details">
-                                <div class="w-summary-info">
-                                    <h6>Income</h6>
-                                    <p class="summary-count">$92,600</p>
-                                </div>
-                                <div class="w-summary-stats">
-                                    <div class="progress">
-                                        <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="90" class="progress-bar bg-gradient-secondary" style="width: 90%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="summary-list">
-                            <div class="w-icon">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="17"
-                                    height="17"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="feather feather-tag"
-                                >
-                                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                                    <line x1="7" y1="7" x2="7" y2="7"></line>
-                                </svg>
-                            </div>
-                            <div class="w-summary-details">
-                                <div class="w-summary-info">
-                                    <h6>Profit</h6>
-                                    <p class="summary-count">$37,515</p>
-                                </div>
-                                <div class="w-summary-stats">
-                                    <div class="progress">
-                                        <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="65" class="progress-bar bg-gradient-success" style="width: 65%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="summary-list">
-                            <div class="w-icon">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="17"
-                                    height="17"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="feather feather-credit-card"
-                                >
-                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                                    <line x1="1" y1="10" x2="23" y2="10"></line>
-                                </svg>
-                            </div>
-                            <div class="w-summary-details">
-                                <div class="w-summary-info">
-                                    <h6>Expenses</h6>
-                                    <p class="summary-count">$55,085</p>
-                                </div>
-                                <div class="w-summary-stats">
-                                    <div class="progress">
-                                        <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80" class="progress-bar bg-gradient-warning" style="width: 80%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-total-order">
-                    <div class="widget-heading">
-                        <div class="w-icon">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                class="feather feather-shopping-cart"
-                            >
-                                <circle cx="9" cy="21" r="1"></circle>
-                                <circle cx="20" cy="21" r="1"></circle>
-                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="w-value">3,192</div>
-                            <div class="w-numeric-title">Total Orders</div>
-                        </div>
-                    </div>
-                    <div class="widget-content p-0">
-                        <apex-chart v-if="total_orders_options" height="290" type="area" :options="total_orders_options" :series="total_orders_series"></apex-chart>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-recent-activity">
-                    <div class="widget-heading">
-                        <h5>Recent Activities</h5>
-                    </div>
-                    <div class="widget-content">
-                        <perfect-scrollbar class="timeline-line">
-                            <div class="item-timeline timeline-primary">
-                                <div class="badge badge-primary"></div>
-                                <div class="t-text">
-                                    <p><span>Updated</span> Server Logs</p>
-                                    <span class="badge badge-outline-primary outline-badge-primary icon-fill-primary">Pending</span>
-                                    <p class="t-time">Just Now</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-success">
-                                <div class="badge badge-success"></div>
-                                <div class="t-text">
-                                    <p>Send Mail to <a href="javascript:void(0);">HR</a> and <a href="javascript:void(0);">Admin</a></p>
-                                    <span class="badge badge-outline-success outline-badge-success icon-fill-success">Completed</span>
-                                    <p class="t-time">2 min ago</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-danger">
-                                <div class="badge badge-danger"></div>
-                                <div class="t-text">
-                                    <p>Backup <span>Files EOD</span></p>
-                                    <span class="badge badge-outline-danger outline-badge-danger icon-fill-danger">Pending</span>
-                                    <p class="t-time">14:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-dark">
-                                <div class="badge badge-dark"></div>
-                                <div class="t-text">
-                                    <p>Collect documents from <a href="javascript:void(0);">Sara</a></p>
-                                    <span class="badge badge-outline-dark outline-badge-dark icon-fill-dark">Completed</span>
-                                    <p class="t-time">16:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-warning">
-                                <div class="badge badge-warning"></div>
-                                <div class="t-text">
-                                    <p>Conference call with <a href="javascript:void(0);">Marketing Manager</a>.</p>
-                                    <span class="badge badge-outline-warning outline-badge-warning icon-fill-warning">In progress</span>
-                                    <p class="t-time">17:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-secondary">
-                                <div class="badge badge-secondary"></div>
-                                <div class="t-text">
-                                    <p>Rebooted Server</p>
-                                    <span class="badge badge-outline-secondary outline-badge-secondary icon-fill-secondary">Completed</span>
-                                    <p class="t-time">17:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-warning">
-                                <div class="badge badge-warning"></div>
-                                <div class="t-text">
-                                    <p>Send contract details to Freelancer</p>
-                                    <span class="badge badge-outline-warning outline-badge-warning icon-fill-warning">Pending</span>
-                                    <p class="t-time">18:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-dark">
-                                <div class="badge badge-dark"></div>
-                                <div class="t-text">
-                                    <p>Kelly want to increase the time of the project.</p>
-                                    <span class="badge badge-outline-dark outline-badge-dark icon-fill-dark">In Progress</span>
-                                    <p class="t-time">19:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-success">
-                                <div class="badge badge-success"></div>
-                                <div class="t-text">
-                                    <p>Server down for maintanence</p>
-                                    <span class="badge badge-outline-success outline-badge-success icon-fill-success">Completed</span>
-                                    <p class="t-time">19:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-secondary">
-                                <div class="badge badge-secondary"></div>
-                                <div class="t-text">
-                                    <p>Malicious link detected</p>
-                                    <span class="badge badge-outline-secondary outline-badge-secondary icon-fill-secondary">Block</span>
-                                    <p class="t-time">20:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-warning">
-                                <div class="badge badge-warning"></div>
-                                <div class="t-text">
-                                    <p>Rebooted Server</p>
-                                    <span class="badge badge-outline-warning outline-badge-warning icon-fill-warning">Completed</span>
-                                    <p class="t-time">23:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-primary">
-                                <div class="badge badge-primary"></div>
-                                <div class="t-text">
-                                    <p><span>Updated</span> Server Logs</p>
-                                    <span class="badge badge-outline-primary outline-badge-primary icon-fill-primary">Pending</span>
-                                    <p class="t-time">Just Now</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-success">
-                                <div class="badge badge-success"></div>
-                                <div class="t-text">
-                                    <p>Send Mail to <a href="javascript:void(0);">HR</a> and <a href="javascript:void(0);">Admin</a></p>
-                                    <span class="badge badge-outline-success outline-badge-success icon-fill-success">Completed</span>
-                                    <p class="t-time">2 min ago</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-danger">
-                                <div class="badge badge-danger"></div>
-                                <div class="t-text">
-                                    <p>Backup <span>Files EOD</span></p>
-                                    <span class="badge badge-outline-danger outline-badge-danger icon-fill-danger">Pending</span>
-                                    <p class="t-time">14:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-dark">
-                                <div class="badge badge-dark"></div>
-                                <div class="t-text">
-                                    <p>Collect documents from <a href="javascript:void(0);">Sara</a></p>
-                                    <span class="badge badge-outline-dark outline-badge-dark icon-fill-dark">Completed</span>
-                                    <p class="t-time">16:00</p>
-                                </div>
-                            </div>
-
-                            <div class="item-timeline timeline-warning">
-                                <div class="badge badge-warning"></div>
-                                <div class="t-text">
-                                    <p>Conference call with <a href="javascript:void(0);">Marketing Manager</a>.</p>
-                                    <span class="badge badge-outline-warning outline-badge-warning icon-fill-warning">In progress</span>
-                                    <p class="t-time">17:00</p>
-                                </div>
-                            </div>
-                        </perfect-scrollbar>
-
-                        <div class="tm-action-btn">
-                            <button type="button" class="btn btn-default">
-                                <span>View All</span>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="feather feather-arrow-right"
-                                >
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-transaction">
-                    <div class="widget-heading">
-                        <h5>Transactions</h5>
+                        <h5>Vendas</h5>
                         <div class="task-action">
                             <div class="dropdown btn-group">
-                                <a href="javascript:;" id="ddlTransactions" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a href="javascript:;" id="ddlStatistics" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="24"
@@ -487,137 +76,46 @@
                                         <circle cx="5" cy="12" r="1"></circle>
                                     </svg>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlTransactions">
-                                    <li><a href="javascript:;" class="dropdown-item">View Report</a></li>
-                                    <li><a href="javascript:;" class="dropdown-item">Edit Report</a></li>
-                                    <li><a href="javascript:;" class="dropdown-item">Mark as Done</a></li>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlStatistics">
+                                    <li><a href="javascript:;" class="dropdown-item">View</a></li>
+                                    <li><a href="javascript:;" class="dropdown-item">Download</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     <div class="widget-content">
-                        <div class="transactions-list">
-                            <div>
-                                <span class="b-avatar icon-fill-info me-2 badge-info rounded-circle">
-                                    <span class="b-avatar-text"><span>SP</span></span>
-                                </span>
-                                <div class="t-name">
-                                    <h4>Shaun Park</h4>
-                                    <p>10 Jan 1:00PM</p>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="w-detail">
+                                    <p class="w-title">Total de Vendas</p>
+                                    <p class="w-stats">R$ {{ formataDinheiro( somaValor(store.relLoja?.map(x => x.vl_total_nf))) }}</p>
                                 </div>
+                                <apex-chart v-if="total_visit_options" height="58" type="line" :options="total_visit_options" :series="total_visit_series"></apex-chart>
                             </div>
-                            <div class="text-success">+$36.11</div>
-                        </div>
-
-                        <div class="transactions-list">
-                            <div>
-                                <span class="b-avatar icon-fill-warning me-2 badge-warning rounded-circle">
-                                    <span class="b-avatar-custom"
-                                        ><svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="19"
-                                            height="19"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="feather feather-home"
-                                        >
-                                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                        </svg>
-                                    </span>
-                                </span>
-                                <div class="t-name">
-                                    <h4>Electricity Bill</h4>
-                                    <p>04 Jan 1:00PM</p>
+                            <div class="col-6">
+                                <div class="w-detail">
+                                    <p class="w-title">Total Descontos</p>
+                                    <p class="w-stats">R${{ formataDinheiro(somaValor(store.relLoja?.map(x => x.vl_desconto))) }}</p>
                                 </div>
+                                <apex-chart v-if="paid_visit_options" height="58" type="line" :options="paid_visit_options" :series="paid_visit_series"></apex-chart>
                             </div>
-                            <div class="text-danger">-$16.44</div>
                         </div>
-
-                        <div class="transactions-list">
-                            <div>
-                                <span class="b-avatar icon-fill-danger me-2 badge-danger rounded-circle"
-                                    ><span class="b-avatar-text"><span>AD</span></span></span
-                                >
-                                <div class="t-name">
-                                    <h4>Amy Diaz</h4>
-                                    <p>31 Jan 1:00PM</p>
-                                </div>
-                            </div>
-                            <div class="text-success">+$66.44</div>
-                        </div>
-
-                        <div class="transactions-list">
-                            <div>
-                                <span class="b-avatar icon-fill-secondary me-2 badge-secondary rounded-circle"
-                                    ><span class="b-avatar-custom"
-                                        ><svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="19"
-                                            height="19"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="feather feather-home"
-                                        >
-                                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                            <polyline points="9 22 9 12 15 12 15 22"></polyline></svg></span
-                                ></span>
-                                <div class="t-name">
-                                    <h4>Netflix</h4>
-                                    <p>02 Feb 1:00PM</p>
-                                </div>
-                            </div>
-                            <div class="text-danger">-$32.00</div>
-                        </div>
-
-                        <div class="transactions-list">
-                            <div>
-                                <span class="b-avatar icon-fill-info me-2 badge-info rounded-circle"
-                                    ><span class="b-avatar-text"><span>DA</span></span></span
-                                >
-                                <div class="t-name">
-                                    <h4>Daisy Anderson</h4>
-                                    <p>15 Feb 1:00PM</p>
-                                </div>
-                            </div>
-                            <div class="text-success">+$10.08</div>
-                        </div>
-
-                        <div class="transactions-list">
-                            <div>
-                                <span class="b-avatar icon-fill-danger me-2 badge-danger rounded-circle"
-                                    ><span class="b-avatar-text"><span>OG</span></span></span
-                                >
-                                <div class="t-name">
-                                    <h4>Oscar Garner</h4>
-                                    <p>20 Feb 1:00PM</p>
-                                </div>
-                            </div>
-                            <div class="text-danger">-$22.00</div>
-                        </div>
-                    </div>
+                    </div> 
                 </div>
-            </div>
 
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-wallet-balance">
-                    <div class="widget-heading d-block">
-                        <div class="wallet-usr-info">
-                            <div class="usr-name">
-                                <span><img src="@/assets/images/profile-32.jpeg" alt="admin-profile" class="img-fluid" /> Alan Green</span>
-                            </div>
-                            <div class="add">
-                                <span
-                                    ><svg
+                
+            </div>
+        
+
+            <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                <div class="widget widget-statistics">
+                    <div class="widget-heading">
+                        <h5>Vendas</h5>
+                        <div class="task-action">
+                            <div class="dropdown btn-group">
+                                <a href="javascript:;" id="ddlStatistics" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="24"
                                         height="24"
@@ -627,610 +125,474 @@
                                         stroke-width="2"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
-                                        class="feather feather-plus"
+                                        class="feather feather-more-horizontal"
                                     >
-                                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                                        <line x1="5" y1="12" x2="19" y2="12"></line></svg
-                                ></span>
+                                        <circle cx="12" cy="12" r="1"></circle>
+                                        <circle cx="19" cy="12" r="1"></circle>
+                                        <circle cx="5" cy="12" r="1"></circle>
+                                    </svg>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlStatistics">
+                                    <li><a href="javascript:;" class="dropdown-item">View</a></li>
+                                    <li><a href="javascript:;" class="dropdown-item">Download</a></li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="wallet-balance">
-                            <p>Wallet Balance</p>
-                            <h5><span class="w-currency">$</span>2953</h5>
+                    </div>
+                    <div class="widget-content">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="w-detail">
+                                    <p class="w-title">Qtde de Vendas</p>
+                                    <p class="w-stats">{{ somaValor(store.relLoja.map(x => x.quantidadevenda)) }}</p>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="feather feather-trending-up"
+                                    >
+                                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                        <polyline points="17 6 23 6 23 12"></polyline>
+                                    </svg>
+                                </div>
+                               
+                            </div>
+                            <div class="col-6">
+                                <div class="w-detail">
+                                    <p class="w-title">Total Geral</p>
+                                    <p class="w-stats">{{ formataDinheiro(somaValor( store.relLoja.map(x => x.totalgeral)) ) }}</p>
+                                </div>
+                                <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="feather feather-trending-up"
+                            >
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
+                            </svg>
+                               
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+ 
 
-                    <div class="widget-amount">
-                        <div class="w-a-info funds-received me-3">
-                            <span
-                                >Received
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="18"
-                                    height="18"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="feather feather-chevron-up text-success float-end"
-                                >
-                                    <polyline points="18 15 12 9 6 15"></polyline></svg
-                            ></span>
-                            <p>$97.99</p>
+            <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                <div class="widget widget-statistics">
+                    <div class="widget-heading">
+                        <h5>Contas</h5>
+                        <apex-chart v-if="store.relVendedores.length > 0" height="350" type="donut" 
+                                                     :options="options_7" 
+                                                     :series="[store.relContas[0].qtdecontasavencer,store.relContas[0].qtdecontasvencidas]">
+                                                    
+                        </apex-chart>
+                    </div>
+                    
+                </div>
+            </div>
+           
+           
+        </div>
+
+            
+  
+        <div class="row layout-top-spacing"> 
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" v-if="store.relVendedores.length > 0"> 
+                    <div class="statbox panel box box-shadow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>Ranking Vendedores</h4>
+                                    <apex-chart v-if="store.relVendedores.length > 0" height="350" type="bar" 
+                                                     :options="options_5" 
+                                                     :series=" [{name: 'vendas' ,data: store.relVendedores.map(x => x.quantidadevenda)}] ">
+                                    </apex-chart>
+                                </div>
+                            </div>
                         </div>
-                        <div class="w-a-info funds-spent">
-                            <span
-                                >Spent
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="18"
-                                    height="18"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="feather feather-chevron-down text-danger float-end"
-                                >
-                                    <polyline points="6 9 12 15 18 9"></polyline></svg
-                            ></span>
-                            <p>$53.00</p>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" v-if="store.relLoja.length > 0"> 
+                    <div class="statbox panel box box-shadow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>Vendas Por Empresa</h4>
+                                    <apex-chart v-if="store.relLoja.length > 0" height="350" type="bar" 
+                                                     :options="chartOptions" 
+                                                     :series=" [{name: 'vendas' ,data: store.relLoja.map(x => x.totalgeral)}] ">
+                                    </apex-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" v-if="store.relAnual.length > 0"> 
+                <div class="widget widget-unique-visitors">
+                    <div class="widget-heading">
+                        <h5>Vendas Total Mensal</h5>
+                        <div class="task-action">
+                            <div class="dropdown btn-group">
+                                <a href="javascript:;" id="ddlVisitors" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="feather feather-more-horizontal"
+                                    >
+                                        <circle cx="12" cy="12" r="1"></circle>
+                                        <circle cx="19" cy="12" r="1"></circle>
+                                        <circle cx="5" cy="12" r="1"></circle>
+                                    </svg>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlVisitors">
+                                    <li><a href="javascript:;" class="dropdown-item">View</a></li>
+                                    <li><a href="javascript:;" class="dropdown-item">Update</a></li>
+                                    <li><a href="javascript:;" class="dropdown-item">Download</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
                     <div class="widget-content">
-                        <div class="bills-stats mb-4">
-                            <span>Pending</span>
-                        </div>
-                        <div class="invoice-list">
-                            <div class="inv-detail mb-4">
-                                <div class="info-detail-1">
-                                    <p>Netflix</p>
-                                    <p><span class="w-currency">$</span> <span class="bill-amount">13.85</span></p>
-                                </div>
-                                <div class="info-detail-2">
-                                    <p>BlueHost VPN</p>
-                                    <p><span class="w-currency">$</span> <span class="bill-amount">15.66</span></p>
-                                </div>
-                            </div>
-                            <div class="inv-action">
-                                <a href="javascript:;" class="btn view-details btn-outline-secondary">View Details</a>
-                                <a href="javascript:;" class="btn pay-now btn-outline-success">Pay Now $29.51</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-recent-orders">
-                    <div class="widget-heading">
-                        <h5>Recent Orders</h5>
-                    </div>
-                    <div class="widget-content table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th><div class="th-content">Customer</div></th>
-                                    <th><div class="th-content">Product</div></th>
-                                    <th><div class="th-content">Invoice</div></th>
-                                    <th><div class="th-content th-heading">Price</div></th>
-                                    <th><div class="th-content">Status</div></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="td-content"><img src="@/assets/images/profile-13.jpeg" alt="avatar" /><span>Luke Ivory</span></div>
-                                    </td>
-                                    <td><div class="td-content text-primary">Headphone</div></td>
-                                    <td><div class="td-content">#46894</div></td>
-                                    <td>
-                                        <div class="td-content"><span>$56.07</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="badge badge-success">Paid</span></div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="td-content"><img src="@/assets/images/profile-7.jpeg" alt="avatar" /><span>Andy King</span></div>
-                                    </td>
-                                    <td><div class="td-content text-warning">Nike Sport</div></td>
-                                    <td><div class="td-content">#76894</div></td>
-                                    <td>
-                                        <div class="td-content"><span>$88.00</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="badge badge-primary">Shipped</span></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content"><img src="@/assets/images/profile-10.jpeg" alt="avatar" /><span>Laurie Fox</span></div>
-                                    </td>
-                                    <td><div class="td-content text-danger">Sunglasses</div></td>
-                                    <td><div class="td-content">#66894</div></td>
-                                    <td>
-                                        <div class="td-content"><span>$126.04</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="badge badge-success">Paid</span></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content"><img src="@/assets/images/profile-5.jpeg" alt="avatar" /><span>Ryan Collins</span></div>
-                                    </td>
-                                    <td><div class="td-content text-warning">Sport</div></td>
-                                    <td><div class="td-content">#89891</div></td>
-                                    <td>
-                                        <div class="td-content"><span>$108.09</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="badge badge-primary">Shipped</span></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content"><img src="@/assets/images/profile-4.jpeg" alt="avatar" /><span>Irene Collins</span></div>
-                                    </td>
-                                    <td><div class="td-content text-primary">Speakers</div></td>
-                                    <td><div class="td-content">#75844</div></td>
-                                    <td>
-                                        <div class="td-content"><span>$84.00</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="badge badge-danger">Pending</span></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content"><img src="@/assets/images/profile-11.jpeg" alt="avatar" /><span>Sonia Shaw</span></div>
-                                    </td>
-                                    <td><div class="td-content text-danger">Watch</div></td>
-                                    <td><div class="td-content">#76844</div></td>
-                                    <td>
-                                        <div class="td-content"><span>$110.00</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="badge badge-success">Paid</span></div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-top-selling-products">
-                    <div class="widget-heading">
-                        <h5>Top Selling Product</h5>
-                    </div>
-
-                    <div class="widget-content table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th><div class="th-content">Product</div></th>
-                                    <th><div class="th-content th-heading">Price</div></th>
-                                    <th><div class="th-content th-heading">Discount</div></th>
-                                    <th><div class="th-content">Sold</div></th>
-                                    <th><div class="th-content">Source</div></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-headphones.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Headphone</p>
-                                                <p class="prd-category text-primary">Digital</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="pricing">$168.09</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$60.09</span></div>
-                                    </td>
-                                    <td><div class="td-content">170</div></td>
-                                    <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-danger"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Direct</a
-                                            >
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-shoes.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Shoes</p>
-                                                <p class="prd-category text-warning">Faishon</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="pricing">$108.09</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$47.09</span></div>
-                                    </td>
-                                    <td><div class="td-content">130</div></td>
-                                    <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-primary"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Google</a
-                                            >
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-watch.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Watch</p>
-                                                <p class="prd-category text-danger">Accessories</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="pricing">$88.00</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$20.00</span></div>
-                                    </td>
-                                    <td><div class="td-content">66</div></td>
-                                    <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-warning"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Ads</a
-                                            >
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-laptop.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Laptop</p>
-                                                <p class="prd-category text-primary">Digital</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="pricing">$110.00</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$33.00</span></div>
-                                    </td>
-                                    <td><div class="td-content">35</div></td>
-                                    <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-info"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Email</a
-                                            >
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-camera.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Camera</p>
-                                                <p class="prd-category text-primary">Digital</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="pricing">$126.04</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$26.04</span></div>
-                                    </td>
-                                    <td><div class="td-content">30</div></td>
-                                    <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-secondary"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Referral</a
-                                            >
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <apex-chart v-if="unique_visitor_options" height="350" type="bar" 
+                            :options="unique_visitor_options" 
+                            :series=" [{name: 'vendas' ,data: store.relAnual.map(x => x.total)}]  "
+                            >
+                        </apex-chart>
                     </div>
                 </div>
             </div>
         </div>
+
+        
     </div>
 </template>
+
 
 <script setup>
     import '@/assets/sass/widgets/widgets.scss';
     import { computed, ref } from 'vue';
     import { useStore } from 'vuex';
-    import ApexChart from 'vue3-apexcharts';
-
+    import { indexStore, useUserStore } from './../store/indexStore' 
+    import ApexChart from 'vue3-apexcharts';    
     import { useMeta } from '@/composables/use-meta';
-    useMeta({ title: 'Sales Admin' });
+    import axios from 'axios';
+    import { useRouter } from "vue-router"; 
+    useMeta({ title: 'Widgets' });
+    const storeLogin = useUserStore()  
+    const router = useRouter()
+    login()
 
-    const store = useStore();
+    const store = indexStore(); 
+    
 
-    //Revenue
-    const revenue_series = ref([
-        { name: 'Income', data: [16800, 16800, 15500, 17800, 15500, 17000, 19000, 16000, 15000, 17000, 14000, 17000] },
-        { name: 'Expenses', data: [16500, 17500, 16200, 17300, 16000, 19500, 16000, 17000, 16000, 19000, 18000, 19000] },
-    ]);
-    const revenue_options = computed(() => {
-        const is_dark = store.state.is_dark_mode;
+    store.relLoja = []
+    store.relVendedores = []
+    store.relAnual = []
+
+    function login (){
+    if(storeLogin.empresas.sucess ) {
+        console.log('usuario logado') 
+        
+    }else{
+        console.log('precisa fazer login')
+        router.push('/auth/login') 
+    }
+  }
+
+  function logout(){ 
+    storeLogin.empresas.sucess =false
+    console.log( storeLogin.empresas.sucess ) 
+    router.push('/auth/login') 
+  }
+
+
+    store.filtro= {
+        empresa: 'CENTRAL',
+        dataInicial: '2023-08-01',
+        dataFinal: '2023-08-15'
+    }
+
+    function filtros(){
+        getTypeRel('BancoDadosLojaoModa.fdb',store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,1)
+        getTypeRel('BancoDadosLojaoModa.fdb',store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,2)
+        getTypeRel('BancoDadosLojaoModa.fdb',store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,3)
+        getTypeRel('BancoDadosLojaoModa.fdb',store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,4)
+    }
+    
+    
+    
+    async function getTypeRel (DataBaseCliente,ComboEmpresas,DataInicial,DataFinal,TypeRel) {
+            let data = JSON.stringify({
+            "databasecliente": DataBaseCliente,
+            "comboempresas": ComboEmpresas,
+            "datainicial": dataAtualFormatada(DataInicial),
+            "datafinal": dataAtualFormatada(DataFinal),
+            "typerel": TypeRel
+            });
+
+            const dados = 'dados vai'
+
+            let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url:  store.ulrprincipal+'/evento/report',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Authorization': 'Basic dGVzdHNlcnZlcjp0ZXN0c2VydmVy'
+            },
+            data : data
+            };
+
+            await axios.request(config)
+            .then((response) => {   
+                if(TypeRel == 1){ 
+                    store.relLoja = response.data.dados 
+                }
+                if(TypeRel == 2){
+                    store.relVendedores = response.data.dados 
+                }
+                if(TypeRel == 3){ 
+                    store.relAnual = response.data.dados 
+                } 
+                if(TypeRel == 4){ 
+                    store.relContas = response.data.dados 
+                } 
+                return response  
+            
+            })
+            .catch((error) => {
+            console.log(error);
+            });
+
+         
+    } 
+  
+    function dataAtualFormatada(d){ 
+    var data =  new Date(d),
+        dia  = data.getDate().toString(),
+        diaF = (dia.length == 1) ? '0'+dia : dia,
+        mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+        mesF = (mes.length == 1) ? '0'+mes : mes,
+        anoF = data.getFullYear();
+    return diaF+"-"+mesF+"-"+anoF;
+    }
+
+    function somaValor(array) { 
+        var arr =  array     
+        var sum = 0; 
+        for(var i =0;i<arr.length;i++){ 
+          sum+=arr[i]; 
+        }   
+        return (sum)
+      }
+
+      function formataDinheiro(item) {
+         let venda = item;
+         if (!!venda && venda.toString().includes(",")) {
+           venda = venda.toString().replace(",", ".");
+         }
+         return parseFloat(venda)
+           .toFixed(2)
+           .replace(".", ",")
+           .replace(/(\d)(?=(\d{3})+\,)/g, "$1.");
+    }
+
+ 
+  
+    //Simple Bar
+  
+       //Simple Bar
+       const options_5 = computed(() => {
+ 
         return {
-            chart: {
-                fontFamily: 'Nunito, sans-serif',
-                zoom: { enabled: false },
-                toolbar: { show: false },
+            chart:      { toolbar: { show: false } },
+            dataLabels: { enabled: true, formatter: function (val) {return "R$ " +val },style: {fontSize: '11px',colors: ["#000000"]
+              } },
+            plotOptions:{ bar: { horizontal: true,columnWidth: '90%',barHeight: '90%' } },
+            xaxis:      { categories: store.relVendedores.map(x => x.loginfuncionario) },
+            grid:       { borderColor:  '#e0e6ed' },
+            tooltip:    { theme:  'light' },
+        };
+    });
+      //Simple Bar
+    
+
+    //unique visitors
+    const unique_visitor_series = ref([
+        { name: 'Vendas', data: store.relAnual.map(x => x.total)}, 
+    ]);
+    const unique_visitor_options = computed(() => {
+        
+        return {
+            chart: { height: 350,      type: 'bar'},
+            dataLabels: { enabled: true, formatter: function (val) {return "R$ " +val },offsetY: -20,
+              style: {
+                fontSize: '11px',
+                colors: ["#000000"]
+              }              
             },
-            dataLabels: { enabled: false },
-            stroke: { show: true, curve: 'smooth', width: 2, lineCap: 'square' },
-            dropShadow: { enabled: true, opacity: 0.2, blur: 10, left: -7, top: 22 },
-            colors: is_dark ? ['#2196f3', '#e7515a'] : ['#1b55e2', '#e7515a'],
-            markers: {
-                discrete: [
-                    { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 },
-                    { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 },
-                ],
+            
+            stroke: { show: true, width: 2, colors: ['transparent'] },
+            colors: ['#5c1ac3', '#ffbb44','#A52A2A','#5F9EA0'],
+            dropShadow: { enabled: true, opacity: 0.3, blur: 1, left: 1, top: 1, color: '#515365' },
+            plotOptions: {
+              bar: {
+                borderRadius: 10,
+                dataLabels: {
+                  position: 'top', // top, center, bottom
+                },
+              }
             },
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            legend: { position: 'bottom', horizontalAlign: 'center', fontSize: '14px', markers: { width: 12, height: 12 }, itemMargin: { horizontal: 0, vertical: 8 } },
+            grid: { borderColor:  '#e0e6ed' },
             xaxis: {
-                axisBorder: { show: false },
-                axisTicks: { show: false },
-                crosshairs: { show: true },
-                labels: { offsetX: 0, offsetY: 5, style: { fontSize: '12px', fontFamily: 'Nunito, sans-serif', cssClass: 'apexcharts-xaxis-title' } },
+                categories: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                axisBorder: { show: true, color:   '#e0e6ed' },
+                
             },
             yaxis: {
-                tickAmount: 7,
-                labels: {
-                    formatter: function (value) {
-                        return value / 1000 + 'K';
+                tickAmount: 6,
+            },
+            fill: {
+                type: 'gradient',
+                gradient: { shade:  'light', type: 'vertical', shadeIntensity: 0.3, inverseColors: false, opacityFrom: 1, opacityTo: 0.8, stops: [0, 100] },
+            },
+            tooltip: {
+                theme:  'light',
+                y: {
+                    formatter: function (val) {
+                        return val;
                     },
-                    offsetX: -10,
-                    offsetY: 0,
-                    style: { fontSize: '12px', fontFamily: 'Nunito, sans-serif', cssClass: 'apexcharts-yaxis-title' },
-                },
-            },
-            grid: {
-                borderColor: is_dark ? '#191e3a' : '#e0e6ed',
-                strokeDashArray: 5,
-                xaxis: { lines: { show: true } },
-                yaxis: { lines: { show: false } },
-                padding: { top: 0, right: 0, bottom: 0, left: 0 },
-            },
-            legend: {
-                position: 'top',
-                horizontalAlign: 'right',
-                offsetY: 0,
-                fontSize: '16px',
-                fontFamily: 'Nunito, sans-serif',
-                markers: { width: 10, height: 10, strokeWidth: 0, strokeColor: '#fff', fillColors: undefined, radius: 12, onClick: undefined, offsetX: 0, offsetY: 0 },
-                itemMargin: { horizontal: 20, vertical: 5 },
-            },
-            tooltip: { theme: 'dark', marker: { show: true }, x: { show: false } },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    type: 'vertical',
-                    shadeIntensity: 1,
-                    inverseColors: !1,
-                    opacityFrom: is_dark ? 0.19 : 0.28,
-                    opacityTo: 0.05,
-                    stops: is_dark ? [100, 100] : [45, 100],
                 },
             },
         };
     });
 
-    //Daily Sales
-    const daily_sales_series = ref([
-        { name: 'Sales', data: [44, 55, 41, 67, 22, 43, 21] },
-        { name: 'Last Week', data: [13, 23, 20, 8, 13, 27, 33] },
-    ]);
-    const daily_sales_options = computed(() => {
-        return {
-            chart: { toolbar: { show: false }, stacked: true, stackType: '100%' },
-            dataLabels: { enabled: false },
-            stroke: { show: true, width: 1 },
-            colors: ['#e2a03f', '#e0e6ed'],
-            responsive: [{ breakpoint: 480, options: { legend: { position: 'bottom', offsetX: -10, offsetY: 0 } } }],
-            xaxis: { labels: { show: false }, categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'] },
-            yaxis: { show: false },
-            fill: { opacity: 1 },
-            plotOptions: { bar: { horizontal: false, columnWidth: '25%' } },
-            legend: { show: false },
-            grid: {
-                show: false,
-                xaxis: { lines: { show: false } },
-                padding: { top: 10, right: -20, bottom: -20, left: -20 },
-            },
-        };
-    });
 
-    //Total Orders
-    const total_orders_series = ref([{ name: 'Sales', data: [28, 40, 36, 52, 38, 60, 38, 52, 36, 40] }]);
-    const total_orders_options = computed(() => {
-        const is_dark = store.state.is_dark_mode;
-        return {
-            chart: { sparkline: { enabled: true } },
-            stroke: { curve: 'smooth', width: 2 },
-            colors: is_dark ? ['#1abc9c'] : ['#fff'],
-            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-            yaxis: { min: 0, show: false },
-            grid: { padding: { top: 125, right: 0, bottom: 0, left: 0 } },
-            fill: {
-                opacity: 1,
-                type: 'gradient',
-                gradient: {
-                    type: 'vertical',
-                    shadeIntensity: 1,
-                    inverseColors: !1,
-                    opacityFrom: is_dark ? 0.3 : 0.4,
-                    opacityTo: 0.05,
-                    stops: is_dark ? [100, 100] : [45, 100],
-                },
-            },
-            tooltip: { x: { show: false }, theme: 'dark' },
-        };
-    });
+// vendas por empresa
+ 
+ 
+const chartOptions = computed(() => {
 
-    //Sales by Category
-    const sales_donut_series = ref([985, 737, 270]);
-    const sales_donut_options = computed(() => {
-        const is_dark = store.state.is_dark_mode;
-        const option = {
-            chart: {},
-            dataLabels: { enabled: false },
-            expandOnClick: is_dark ? false : true,
-            stroke: { show: true, width: 25, colors: is_dark ? '#0e1726' : '#fff' },
-            colors: is_dark ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
-            legend: {
-                position: 'bottom',
-                horizontalAlign: 'center',
-                fontSize: '14px',
-                markers: { width: 10, height: 10 },
-                height: 50,
-                offsetY: 20,
-                itemMargin: { horizontal: 8, vertical: 0 },
+    return {
+        chart: {
+              height: 350,
+              type: 'bar',
+              events: {
+                click: function(chart, w, e) {
+                  // console.log(chart, w, e)
+                }
+              }
             },
+            colors: ['#5c1ac3', '#ffbb44','#A52A2A','#5F9EA0','#8B008B','#483D8B','#2F4F4F','#DCDCDC'],
             plotOptions: {
-                pie: {
-                    donut: {
-                        size: '65%',
-                        background: 'transparent',
-                        labels: {
-                            show: true,
-                            name: { show: true, fontSize: '29px', fontFamily: 'Nunito, sans-serif', offsetY: -10 },
-                            value: {
-                                show: true,
-                                fontSize: '26px',
-                                fontFamily: 'Nunito, sans-serif',
-                                color: is_dark ? '#bfc9d4' : undefined,
-                                offsetY: 16,
-                                formatter: function (val) {
-                                    return val;
-                                },
-                            },
-                            total: {
-                                show: true,
-                                label: 'Total',
-                                color: '#888ea8',
-                                fontSize: '29px',
-                                formatter: function (w) {
-                                    return w.globals.seriesTotals.reduce(function (a, b) {
-                                        return a + b;
-                                    }, 0);
-                                },
-                            },
+              bar: {
+                columnWidth: '80%',
+                distributed: true,
+              }
+            },
+            dataLabels: { enabled: true, formatter: function (val) {return "R$ " +val },style: {fontSize: '11px',colors: ["#000000"]
+              } },
+            legend: {
+              show: false
+            }, 
+            xaxis:      { categories: store.relLoja.map(x => x.identificacaointegracao) }
+    }
+             
+          })
+
+ //Statistics
+ const total_visit_series = ref([{ data: [21, 9, 36, 12, 44, 25, 59, 41, 66, 25] }]);
+    const total_visit_options = computed(() => {
+     
+        return {
+            chart: { sparkline: { enabled: true }, dropShadow: { enabled: true, top: 3, left: 1, blur: 3, color: '#009688', opacity: 0.7 } },
+            stroke: { curve: 'smooth', width: 2 },
+            markers: { size: 0 },
+            colors: ['#009688'],
+            grid: { padding: { top: 0, bottom: 0, left: 0 } },
+            tooltip: {
+                theme:   'light',
+                x: { show: false },
+                y: {
+                    title: {
+                        formatter: function formatter() {
+                            return '';
                         },
                     },
                 },
             },
-            labels: ['Apparel', 'Sports', 'Others'],
+            responsive: [{ breakPoint: 576, options: { chart: { height: 95 }, grid: { padding: { top: 45, bottom: 0, left: 0 } } } }],
         };
-
-        if (is_dark) {
-            option['states'] = {
-                hover: { filter: { type: 'none' } },
-                active: { filter: { type: 'none' } },
-            };
-        }
-
-        return option;
+    });   
+    
+    const paid_visit_series = ref([{ data: [22, 19, 30, 47, 32, 44, 34, 55, 41, 69] }]);
+    const paid_visit_options = computed(() => {
+         
+        return {
+            chart: { sparkline: { enabled: true }, dropShadow: { enabled: true, top: 1, left: 1, blur: 2, color: '#e2a03f', opacity: 0.7 } },
+            stroke: { curve: 'smooth', width: 2 },
+            markers: { size: 0 },
+            colors: ['#e2a03f'],
+            grid: { padding: { top: 0, bottom: 0, left: 0 } },
+            tooltip: {
+                theme:  'light',
+                x: { show: false },
+                y: {
+                    title: {
+                        formatter: function formatter() {
+                            return '';
+                        },
+                    },
+                },
+            },
+            responsive: [{ breakPoint: 576, options: { chart: { height: 95 }, grid: { padding: { top: 35, bottom: 0, left: 0 } } } }],
+        };
     });
+
+
+   const options_71 = {
+    chart: { toolbar: { show: false } },
+    responsive: [{ breakpoint: 480, options: { chart: { width: 200 }, legend: { position: 'bottom' } } }]
+}
+
+const options_7 = computed(() => {
+     
+     return {
+        chart: { toolbar: { show: false } },
+        responsive: [{ breakpoint: 480, options: { chart: { width: 200 }, legend: { position: 'bottom' } } }]
+     };
+ });   
+
+    const series_7 = [44, 55]
+
+
 </script>
+
+<style>    
+</style>
+
