@@ -1,4 +1,5 @@
 <template> 
+{{ dataFormatada(new Date()) }}
 <div v-if="storeLogin.empresas?.sucess"> 
 
     <div class="layout-px-spacing dash_2">
@@ -36,7 +37,8 @@
 
         <div class="form-group col-md-2">
             <label class="col-form-label">Data Inicial</label>              
-            <input type="date" v-model="store.filtro.dataInicial"  class="mb-4 form-control flatpickr active w-100" >
+            <input type="date" v-model="store.filtro.dataInicial"  data-date-format="DD MM YYYY"
+            class="mb-4 form-control flatpickr active w-100" >
         </div> 
 
         <div class="form-group col-md-2">
@@ -355,8 +357,8 @@ Sem dados para exibir neste período...
 
     store.filtro= { 
         empresa: 'CENTRAL',
-        dataInicial:  datafiltroFormatada(new Date()),
-        dataFinal:    datafiltroFormatada(new Date())
+        dataInicial:  dataFormatada(new Date()),
+        dataFinal:    dataFormatada(new Date())
     }
 
     function filtros(){
@@ -385,12 +387,12 @@ Sem dados para exibir neste período...
             let data = JSON.stringify({
             "databasecliente": DataBaseCliente,
             "comboempresas": ComboEmpresas,
-            "datainicial": dataAtualFormatada(DataInicial),
-            "datafinal": dataAtualFormatada(DataFinal),
+            "datainicial": DataInicial,
+            "datafinal": DataFinal,
             "typerel": TypeRel
             });
 
-            console.log('TypeRel: '+TypeRel +' DataInicial: '+DataInicial)
+            console.log('TypeRel: '+TypeRel +' DataInicial: '+DataInicial+' DataInicial: '+DataFinal)
 
             let config = {
             method: 'post',
@@ -429,7 +431,7 @@ Sem dados para exibir neste período...
     } 
  
 
-    function datafiltroFormatada(d){ 
+    function dataFormatada(d){ 
     var data =  new Date(d),
         dia  = data.getDate().toString(),
         diaF = (dia.length == 1) ? '0'+dia : dia,
@@ -439,15 +441,7 @@ Sem dados para exibir neste período...
     return anoF+"-"+mesF+"-"+diaF;
     }
   
-    function dataAtualFormatada(d){ 
-    var data =  new Date(d),
-        dia  = (data.getDate()+1).toString(),
-        diaF = (dia.length == 1) ? '0'+dia : dia,
-        mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
-        mesF = (mes.length == 1) ? '0'+mes : mes,
-        anoF = data.getFullYear();
-    return diaF+"-"+mesF+"-"+anoF;
-    }
+
 
     
     function somaValor(array) { 
