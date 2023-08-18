@@ -15,17 +15,15 @@
             </ul>
         </teleport>
  
-        <div>
  
-        
-        </div>
-        
-   
-  <div   class="row layout-top-spacing" 
-        style="margin: 0px; display: flex; padding: 0px;">
-        <div style="margin: 0px;  padding: 2px; width: 200px;" > 
-        Empresa
-            <select   class="mb-4 form-select form-select-lg w-30"   
+  
+
+  <div   class="row align-items-center form-group" 
+        >
+        <div class="form-group col-md-2">
+            <label class="col-form-label">Empresa</label>
+            
+            <select   class="mb-4 form-control flatpickr active w-100 form-select"   
                     v-model="store.filtro.empresa"            
                     >
                     <option 
@@ -36,28 +34,40 @@
             </select>
         </div> 
 
-        <div style="margin: 0px;  padding: 2px; width: 200px;" > 
-              Data Inicial
-            <input type="date" v-model="store.filtro.dataInicial"    class="mb-4 form-data form-select-lg w-100"> 
+        <div class="form-group col-md-2">
+            <label class="col-form-label">Data Inicial</label>              
+            <input type="date" v-model="store.filtro.dataInicial"  class="mb-4 form-control flatpickr active w-100" >
         </div> 
 
-        <div style="margin: 0px;  padding: 2px; width: 200px;" >
-            Data Final
+        <div class="form-group col-md-2">
+            <label class="col-form-label">Data Final</label>            
             <input 
-                type="date" data-date-format="DD MM YYYY" v-model="store.filtro.dataFinal"  class="mb-4 form-data form-select-lg w-100" 
-                >  
+                type="date" data-date-format="DD MM YYYY" v-model="store.filtro.dataFinal"  
+                class="mb-4 form-control flatpickr active w-100"> 
+                
         </div> 
 
-        <div style="margin: 2px;  padding: 2px; width: 200px;" >
-           <div style="margin-top: 20px; height: 50px;"
-                class="btn btn-primary" @click="filtros()"  >ATUALIZAR</div>
+        <div class="form-group col-md-2 align-items-center ">
+    
+           <div class="btn btn-primary mb-4 form-control active w-300"
+           style="margin-top: 38px; min-height: 43px; 
+           "
+                @click="filtros()">
+               ATUALIZAR
+            </div>
         </div> 
  
   </div>
   
+
+  <div v-if="!store.relVendedores?.length > 0"
+    style="text-align: center; font-size: 30px;"
+    >
+Sem dados para exibir neste período...
+  </div>
       
 
-        <div class="row layout-top-spacing">
+        <div class="row layout-top-spacing" v-if="store.relVendedores?.length > 0">
             <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-statistics">
                     <div class="widget-heading">
@@ -201,11 +211,13 @@
                 <div class="widget widget-statistics">
                     <div class="widget-heading">
                         <h5>Contas</h5>
-                        <apex-chart v-if="store.relVendedores.length > 0" height="350" type="donut" 
+                        <apex-chart v-if="store.relVendedores?.length > 0" height="350" type="donut" 
                                                      :options="options_7"                                                     
                                                      :series="[
+                                                                store.relContas[0].qtdecontaspagas,
                                                                store.relContas[0].qtdecontasavencer,
-                                                               store.relContas[0].qtdecontasvencidas
+                                                               store.relContas[0].qtdecontasvencidas,
+                                                               
                                                               ]">
                                                      
                                                     
@@ -221,7 +233,7 @@
             
   
         <div class="row layout-top-spacing"> 
-            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" v-if="store.relVendedores.length > 0"> 
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" v-if="store.relVendedores?.length > 0"> 
                     <div class="statbox panel box box-shadow">
                         <div class="panel-heading">
                             <div class="row">
@@ -229,7 +241,7 @@
                                     <h4>Ranking Vendedores</h4>
                                     <apex-chart v-if="store.relVendedores.length > 0" height="350" type="bar" 
                                                      :options="options_5" 
-                                                     :series="[{name: 'vendas' ,data: store.relVendedores.map(x => x.quantidadevenda)}]">
+                                                     :series="[{name: 'vendas' ,data: store.relVendedores.map(x => x.vl_total_nf)}]">
                                     </apex-chart>
                                 </div>
                             </div>
@@ -237,7 +249,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" v-if="store.relLoja.length > 0"> 
+                <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" v-if="store.relLoja?.length > 0"> 
                     <div class="statbox panel box box-shadow">
                         <div class="panel-heading">
                             <div class="row">
@@ -253,7 +265,7 @@
                     </div>
                 </div>
 
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" v-if="store.relAnual.length > 0"> 
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" v-if="store.relAnual?.length > 0"> 
                 <div class="widget widget-unique-visitors">
                     <div class="widget-heading">
                         <h5>Vendas Total Mensal</h5>
@@ -352,6 +364,8 @@
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,3)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,4)
     }
+
+    filtros()
     
     function compare( a, b ) {
         if ( a.quantidadevenda > b.quantidadevenda ){
@@ -372,7 +386,7 @@
             "typerel": TypeRel
             });
 
-            const dados = 'dados vai'
+            console.log('TypeRel: '+TypeRel +' DataInicial: '+DataInicial)
 
             let config = {
             method: 'post',
@@ -391,7 +405,8 @@
                     store.relLoja = response.data.dados 
                 }
                 if(TypeRel == 2){
-                    store.relVendedores = response.data.dados.map(x=> x).sort(compare)
+                    
+                    store.relVendedores = response.data.dados
                 }
                 if(TypeRel == 3){ 
                     store.relAnual = response.data.dados 
@@ -422,7 +437,7 @@
   
     function dataAtualFormatada(d){ 
     var data =  new Date(d),
-        dia  = data.getDate().toString(),
+        dia  = (data.getDate()+1).toString(),
         diaF = (dia.length == 1) ? '0'+dia : dia,
         mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
         mesF = (mes.length == 1) ? '0'+mes : mes,
@@ -432,11 +447,14 @@
 
     
     function somaValor(array) { 
-        var arr =  array     
+        if(array) {
+            var arr =  array     
         var sum = 0; 
         for(var i =0;i<arr.length;i++){ 
           sum+=arr[i]; 
         }   
+        }
+   
         return (sum)
       }
 
@@ -462,7 +480,7 @@
  
         return {
             chart:      { toolbar: { show: false } },
-            dataLabels: { enabled: true, formatter: function (val) {return val },style: {fontSize: '11px',colors: ["#000000"]
+            dataLabels: { enabled: true, formatter: function (val) {return 'R$'+formataDinheiro(val) },style: {fontSize: '11px',colors: ["#000000"]
               } },
             plotOptions:{ bar: { horizontal: true,columnWidth: '90%',barHeight: '90%' } },
             xaxis:      { categories: store.relVendedores.map(x => x.loginfuncionario)  },
@@ -481,7 +499,7 @@
         
         return {
             chart: { height: 350,      type: 'bar'},
-            dataLabels: { enabled: true, formatter: function (val) {return "R$ " +val },offsetY: -20,
+            dataLabels: { enabled: true, formatter: function (val) {return "R$ " +formataDinheiro(val) },offsetY: -20,
               style: {
                 fontSize: '11px',
                 colors: ["#000000"]
@@ -547,7 +565,7 @@ const chartOptions = computed(() => {
                 distributed: true,
               }
             },
-            dataLabels: { enabled: true, formatter: function (val) {return "R$ " +val },style: {fontSize: '11px',colors: ["#000000"]
+            dataLabels: { enabled: true, formatter: function (val) {return "R$ " +formataDinheiro(val) },style: {fontSize: '11px',colors: ["#000000"]
               } },
             legend: {
               show: false
@@ -607,17 +625,14 @@ const chartOptions = computed(() => {
     });
 
 
-   const options_71 = {
-    chart: { toolbar: { show: true } },
-    responsive: [{ breakpoint: 480, options: { chart: { width: 200 }, legend: { position: 'bottom' } } }]
-}
+  
 
 const options_7 = computed(() => {
      
      return {
         chart: { toolbar: { show: false } },
-        colors: ['#f8ff16','#ff2717'],
-        labels: ['a Vencer', 'Vencidas'],
+        colors: ['#2a37ff','#ffa500','#ff2717'],
+        labels: ['Pagas','A Vencer', 'Vencidas'],
         responsive: [{ breakpoint: 480, options: { chart: { width: 200 }, legend: { position: 'bottom' } } }]
      };
  });   

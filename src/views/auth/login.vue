@@ -1,5 +1,5 @@
 <template>
-    {{  storeLogin }}
+ 
     
         <div class="form auth-boxed">
             <div class="form-container outer">
