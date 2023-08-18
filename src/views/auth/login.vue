@@ -1,7 +1,19 @@
 <template>
+
+ 
+  <div v-if="store.alertLogin" @click="store.alertLogin=false"
+    style="z-index: 1080" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-body toast-danger   justify-content-between"
+    style="text-align: center;"> 
+       Usuário ou Senha Incorretos!  
+    </div>
+</div>
+ 
+ 
+
  
     
-        <div class="form auth-boxed">
+        <div class="form auth-boxed" @click="store.alertLogin=false">
             <div class="form-container outer">
                 <div class="form-form">
                     <div class="form-form-wrap">
@@ -14,7 +26,7 @@
                                    
                                     <div class="form">
                                         <div id="username-field" class="field-wrapper input">
-                                            <label for="username">USERNAME</label>
+                                            <label for="username">EMAIL</label>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 width="24"
@@ -38,8 +50,8 @@
     
                                         <div id="password-field" class="field-wrapper input mb-2">
                                             <div class="d-flex justify-content-between">
-                                                <label for="password">PASSWORD</label>
-                                                <router-link to="/auth/pass-recovery-boxed" class="forgot-pass-link">Forgot Password?</router-link>
+                                                <label for="password">SENHA</label>
+                                                <router-link to="" class="forgot-pass-link">Esqueceu a senha?</router-link>
                                             </div>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -86,11 +98,11 @@
                                     </div> 
                                 </form> 
                            
-                                    <div class="form" style="justify-content: space-between;">
-                                            <div class="field-wrapper">
-                                                <button @click="getLogin()"  class="btn btn-primary">Log In</button>
+                                    <div class="form " style="justify-content: space-between;">
+                                            <div class="field-wrapper ">
+                                                <div @click="getLogin()"  class="btn btn-primary mb-4 form-control active w-300">Log In</div>
                                                 
-                                            </div>
+                                            </div> 
                                         </div>
     
                                
@@ -152,6 +164,7 @@
                 router.push('/') 
                 })
                 .catch((error) => {
+                    store.alertLogin=true
                 console.log(error);
                 });
     

@@ -1,4 +1,6 @@
-<template>
+<template> 
+<div v-if="storeLogin.empresas.sucess"> 
+
     <div class="layout-px-spacing dash_2">
         <teleport to="#breadcrumb">
             <ul class="navbar-nav flex-row">
@@ -14,11 +16,9 @@
                 </li>
             </ul>
         </teleport>
- 
- 
   
 
-  <div   class="row align-items-center form-group" 
+  <div   class="row align-items-center form-group " to="#breadcrumb"
         >
         <div class="form-group col-md-2">
             <label class="col-form-label">Empresa</label>
@@ -311,6 +311,7 @@ Sem dados para exibir neste período...
 
         
     </div>
+</div>    
 </template>
 
 
