@@ -29,7 +29,7 @@ export const indexStore = defineStore("rotas", () =>{
 export const useUserStore = defineStore('storeUser', {
     state: () => {
       return {
-        empresas: null,
+        empresas: false,
         email: null, 
         senha: null,
         accessToken: 'xxxxxxxxxxxxx'

@@ -1,5 +1,5 @@
 <template> 
-<div v-if="storeLogin.empresas.sucess"> 
+<div v-if="storeLogin.empresas?.sucess"> 
 
     <div class="layout-px-spacing dash_2">
         <teleport to="#breadcrumb">
@@ -360,10 +360,13 @@ Sem dados para exibir neste período...
     }
 
     function filtros(){
+        if(storeLogin.empresas?.sucess){
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,1)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,2)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,3)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,4)
+        }
+       
     }
 
     filtros()
