@@ -517,10 +517,11 @@
         
         return {
             chart: { height: 350,      type: 'bar'},
-            dataLabels: { enabled: !store.layoutMobile, formatter: function (val) {return "R$ " +formataDinheiro(val) },offsetY: -20,
+            dataLabels: { enabled: !store.layoutMobile, formatter: function (val) {return "R$ " +formataDinheiro(val) },
+              offsetY: -20,
               style: {
                 fontSize: '11px',
-                colors: ["#000000"]
+                colors: ["#888EA8"]
               }              
             },
              
@@ -585,11 +586,26 @@ const chartOptions = computed(() => {
                 distributed: true,
               }
             },
-            dataLabels: { enabled: true, formatter: function (val) {return "R$ " +formataDinheiro(val) },style: {fontSize: '11px',colors: ["#000000"]
+            
+            dataLabels: { enabled: !store.layoutMobile, formatter: function (val) {return "R$ " +formataDinheiro(val) },
+            offsetY: -20,
+            style: {fontSize: '11px',colors: ["#888EA8"]
               } },
             legend: {
               show: false
             }, 
+            plotOptions: { 
+              bar: {
+                columnWidth: '80%',
+                distributed: true,
+                borderRadius: 0,
+                dataLabels: {
+                  position: 'top', // top, center, bottom
+                },
+              }
+              
+            },
+            
             xaxis:      { categories: store.relLoja.map(x => x.identificacaointegracao) }
     }
              

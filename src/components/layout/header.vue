@@ -6,7 +6,9 @@
                 <ul class="navbar-item theme-brand flex-row text-center">
                     <li class="nav-item theme-logo">
                         <router-link to="/">
-                           
+                            <img width="156"
+                            height="56"
+                             src="https://pdvsmart.com.br/wp-content/uploads/2023/08/logo_barra_pdvsmart.png" class="navbar-logo" alt="logo" />
                         </router-link>
                     </li>
                     <li class="nav-item theme-text">
