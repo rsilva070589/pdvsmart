@@ -10,9 +10,9 @@
                         </router-link>
                     </li>
                     <li class="nav-item theme-text">
-                        <img   width="250"
-                            height="70"
-                            src="https://pdvsmart.com.br/wp-content/uploads/2023/06/LOGOPDVbranca.png" class="navbar-logo" alt="logo" />
+                        <img   width="156"
+                            height="56"
+                            src="https://pdvsmart.com.br/wp-content/uploads/2023/08/logo_barra_pdvsmart.png" class="navbar-logo" alt="logo" />
                     </li>
                 </ul>
                 <div class="d-none horizontal-menu">
@@ -890,7 +890,8 @@ const router = useRouter()
 
     function logout(){ 
     storeLogin.empresas.sucess =false
-    console.log( storeLogin.empresas.sucess )
-    router.push('/auth/login')
+    console.log( storeLogin.empresas.sucess ) 
+    window.location.href = "https://www.pdvsmart.com.br/"
+    
   }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="1==2">
         <div class="overlay-setting" :class="{ show: isOpen }" @click="isOpen = !isOpen"></div>
 
         <div class="app-settings" :class="{ active: isOpen }">

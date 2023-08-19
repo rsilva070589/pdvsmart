@@ -7,7 +7,7 @@ export const indexStore = defineStore("rotas", () =>{
     }); 
   
     const ulrprincipal = 'https://easypedidos.sytes.net:8083'
-    const versao = 'versao: 1.0'
+    const versao = 'version: 1.0'
     const login = {
         email: null,
         senha: null
@@ -17,13 +17,17 @@ export const indexStore = defineStore("rotas", () =>{
         empresa: 'CENTRAL'
     }
 
+    const layoutMobile =  window.screen.availWidth < 768
+       
+
     return {
         rotas ,
         login,
         ulrprincipal ,
         empresas,
         filtro,
-        versao   
+        versao,
+        layoutMobile
     }
     
 });

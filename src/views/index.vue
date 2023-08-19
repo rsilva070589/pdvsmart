@@ -1,5 +1,5 @@
 <template> 
-{{ dataFormatada(new Date()) }}
+
 <div v-if="storeLogin.empresas?.sucess"> 
 
     <div class="layout-px-spacing dash_2">
@@ -17,8 +17,8 @@
                 </li>
             </ul>
         </teleport>
-  
-
+ 
+   
   <div   class="row align-items-center form-group " to="#breadcrumb"
         >
         <div class="form-group col-md-2">
@@ -26,50 +26,68 @@
             
             <select   class="mb-4 form-control flatpickr active w-100 form-select"   
                     v-model="store.filtro.empresa"            
+                    style=" margin-top: -15px;"
                     >
                     <option 
                     v-for="emp, indexEmp in storeLogin.empresas.dadosempresa"
                     :key="indexEmp"
-                    :value="emp.identificacaointegracao">{{emp.identificacaointegracao}}</option>
-               
+                    :value="emp.identificacaointegracao">{{emp.identificacaointegracao}}
+                    </option>               
             </select>
         </div> 
 
-        <div class="form-group col-md-2">
-            <label class="col-form-label">Data Inicial</label>              
+        <div class="form-group col-md-2"
+         v-bind:class="(store.layoutMobile) ? 'filtrosMobile' : 'filtrosWeb'"
+        
+        >
+            <label class="col-form-label"
+        
+            >Data Inicial</label>              
             <input type="date" v-model="store.filtro.dataInicial"  data-date-format="DD MM YYYY"
-            class="mb-4 form-control flatpickr active w-100" >
+            class="mb-4 form-control flatpickr active w-100" 
+            v-bind:class="(store.layoutMobile) ? 'filtrosMobile' : 'filtrosWeb'"
+            style=" margin-top: -15px;"
+        
+            >
         </div> 
 
-        <div class="form-group col-md-2">
-            <label class="col-form-label">Data Final</label>            
+        <div class="form-group col-md-2"
+            v-bind:class="(store.layoutMobile) ? 'filtrosMobile' : 'filtrosWeb'"
+        
+        >
+            <label class="col-form-label"
+         
+            >Data Final</label>            
             <input 
                 type="date" data-date-format="DD MM YYYY" v-model="store.filtro.dataFinal"  
-                class="mb-4 form-control flatpickr active w-100"> 
+                class="mb-4 form-control flatpickr active w-100"
+                v-bind:class="(store.layoutMobile) ? 'filtrosMobile' : 'filtrosWeb'"
+                style=" margin-top: -15px;"
+                > 
                 
         </div> 
 
-        <div class="form-group col-md-2 align-items-center ">
-    
-           <div class="btn btn-primary mb-4 form-control active w-300"
-           style="margin-top: 38px; min-height: 43px; 
-           "
+        <div class="form-group col-md-2 align-items-center ">    
+           <div class="btn btn-primary mb-4 form-control active w-300" 
+                v-bind:class="(store.layoutMobile) ? 'filtrosMobileButton' : 'filtrosWebButton'"                
                 @click="filtros()">
                ATUALIZAR
             </div>
         </div> 
  
   </div>
+
+ 
   
 
-  <div v-if="!store.relVendedores?.length > 0"
+  <div v-if="!store.relVendedores?.length > 0 && !store.carregando"
     style="text-align: center; font-size: 30px;"
     >
-Sem dados para exibir neste período...
+    Sem dados para exibir neste período...
   </div>
       
 
-        <div class="row layout-top-spacing" v-if="store.relVendedores?.length > 0">
+        <div class="row layout-top-spacing" v-if="store.relVendedores?.length > 0" style="margin-top: -30px;">
             <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-statistics">
                     <div class="widget-heading">
@@ -213,13 +231,12 @@ Sem dados para exibir neste período...
                 <div class="widget widget-statistics">
                     <div class="widget-heading">
                         <h5>Contas</h5>
-                        <apex-chart v-if="store.relVendedores?.length > 0" height="350" type="donut" 
+                        <apex-chart v-if="store.relContas?.length > 0" height="350" type="donut" 
                                                      :options="options_7"                                                     
                                                      :series="[
                                                                 store.relContas[0].qtdecontaspagas,
                                                                store.relContas[0].qtdecontasavencer,
-                                                               store.relContas[0].qtdecontasvencidas,
-                                                               
+                                                               store.relContas[0].qtdecontasvencidas,                                                               
                                                               ]">
                                                      
                                                     
@@ -241,7 +258,7 @@ Sem dados para exibir neste período...
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                                     <h4>Ranking Vendedores</h4>
-                                    <apex-chart v-if="store.relVendedores.length > 0" height="350" type="bar" 
+                                    <apex-chart v-if="store.relVendedores.length > 0" height="350" type="line" 
                                                      :options="options_5" 
                                                      :series="[{name: 'vendas' ,data: store.relVendedores.map(x => x.vl_total_nf)}]">
                                     </apex-chart>
@@ -332,11 +349,9 @@ Sem dados para exibir neste período...
     login()
 
     const store = indexStore(); 
-    
-
-    store.relLoja = []
-    store.relVendedores = []
-    store.relAnual = []
+      
+    store.carregando = false
+ 
 
     function login (){
     if(storeLogin.empresas.sucess ) {
@@ -354,6 +369,7 @@ Sem dados para exibir neste período...
     router.push('/auth/login') 
   }
 
+   
 
     store.filtro= { 
         empresa: 'CENTRAL',
@@ -363,12 +379,15 @@ Sem dados para exibir neste período...
 
     function filtros(){
         if(storeLogin.empresas?.sucess){
+            store.relLoja = []
+            store.relVendedores = []
+            store.relAnual = []
+            store.relContas = []
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,1)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,2)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,3)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,4)
-        }
-       
+        } 
     }
 
     filtros()
@@ -420,6 +439,10 @@ Sem dados para exibir neste período...
                 if(TypeRel == 4){ 
                     store.relContas = response.data.dados 
                 } 
+                if(store.layoutMobile){
+                    window.scrollTo(0, 300);
+                    console.log('window.scrollTo')
+                }
                 return response  
             
             })
@@ -473,31 +496,24 @@ Sem dados para exibir neste período...
    
        //Simple Bar
        const options_5 = computed(() => {
-
-        
- 
         return {
-            chart:      { toolbar: { show: false } },
-            dataLabels: { enabled: true, formatter: function (val) {return 'R$'+formataDinheiro(val) },style: {fontSize: '11px',colors: ["#000000"]
-              } },
-            plotOptions:{ bar: { horizontal: true,columnWidth: '90%',barHeight: '90%' } },
+            chart:      { toolbar: { show: false }, zoom: { enabled: false }, }, 
+            dataLabels: { enabled: false }, stroke: { curve: 'straight' },
+            title:      {  align: 'left', style: { fontWeight: 'normal' } },
+            grid:       { row: { colors: ['#f1f2f3', 'transparent'], opacity: 0.5 } },
             xaxis:      { categories: store.relVendedores.map(x => x.loginfuncionario)  },
-            grid:       { borderColor:  '#e0e6ed' },
-            tooltip:    { theme:  'light' },
         };
     });
       //Simple Bar
     
 
     //unique visitors
-    const unique_visitor_series = ref([
-        { name: 'Vendas', data: store.relAnual.map(x => x.total)}, 
-    ]);
+   
     const unique_visitor_options = computed(() => {
         
         return {
             chart: { height: 350,      type: 'bar'},
-            dataLabels: { enabled: true, formatter: function (val) {return "R$ " +formataDinheiro(val) },offsetY: -20,
+            dataLabels: { enabled: !store.layoutMobile, formatter: function (val) {return "R$ " +formataDinheiro(val) },offsetY: -20,
               style: {
                 fontSize: '11px',
                 colors: ["#000000"]
@@ -515,7 +531,7 @@ Sem dados para exibir neste período...
                 },
               }
             },
-            legend: { position: 'bottom', horizontalAlign: 'center', fontSize: '14px', markers: { width: 12, height: 12 }, itemMargin: { horizontal: 0, vertical: 8 } },
+            legend: { position: 'bottom', horizontalAlign: 'center', fontSize: '14px', markers: { width: 12, height: 12 }, itemMargin: { horizontal: 7, vertical: 8 } },
             grid: { borderColor:  '#e0e6ed' },
             xaxis: {
                 categories: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
@@ -641,5 +657,20 @@ const options_7 = computed(() => {
 </script>
 
 <style>    
+.filtrosWeb { 
+ min-height: 43px;        
+}
+.filtrosMobile { 
+ margin-top: -30px;    
+ min-height:  43px;    
+}
+.filtrosWebButton { 
+ min-height: 43px;   
+ margin-top: 20px;       
+}
+.filtrosMobileButton { 
+ margin-top: -20px;    
+ min-height:  43px;    
+}
 </style>
 
