@@ -77,10 +77,9 @@
  
   </div>
 
- 
-  
+<Progress v-if="store.Progress"/> 
 
-  <div v-if="!store.relVendedores?.length > 0 && !store.carregando"
+  <div v-if="!store.relVendedores?.length > 0 && !store.Progress"
     style="text-align: center; font-size: 30px;"
     >
     Sem dados para exibir neste período...
@@ -249,9 +248,7 @@
             </div>
            
            
-        </div>
-
-            
+        </div> 
   
         <div class="row layout-top-spacing"> 
             <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing" v-if="store.relVendedores?.length > 0"> 
@@ -345,6 +342,7 @@
     import { useMeta } from '@/composables/use-meta';
     import axios from 'axios';
     import { useRouter } from "vue-router"; 
+    import Progress from '@/components/Progress.vue';
     
     useMeta({ title: 'Dashboard' });
     const storeLogin = useUserStore()  
@@ -386,6 +384,7 @@
             store.relVendedores = []
             store.relAnual = []
             store.relContas = []
+            store.Progress = true
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,1)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,2)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,3)
@@ -446,11 +445,13 @@
                     window.scrollTo(0, 300);
                     console.log('window.scrollTo')
                 }
+                store.Progress = false
                 return response  
             
             })
             .catch((error) => {
             console.log(error);
+            store.Progress = false
             });
 
          

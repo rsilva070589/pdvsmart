@@ -12,7 +12,7 @@
   </template>
   
   <script setup>
-   import {indexStore} from '../IndexStore' ;
+   import {indexStore} from '../store/indexStore' ;
   const store = indexStore(); 
   </script>
   
