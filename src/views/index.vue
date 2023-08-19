@@ -231,7 +231,9 @@
                 <div class="widget widget-statistics">
                     <div class="widget-heading">
                         <h5>Contas</h5>
-                        <apex-chart v-if="store.relContas?.length > 0" height="350" type="donut" 
+                        <apex-chart 
+                                    
+                                    v-if="store.relContas?.length > 0" height="350" type="donut" 
                                                      :options="options_7"                                                     
                                                      :series="[
                                                                 store.relContas[0].qtdecontaspagas,
@@ -343,7 +345,8 @@
     import { useMeta } from '@/composables/use-meta';
     import axios from 'axios';
     import { useRouter } from "vue-router"; 
-    useMeta({ title: 'Widgets' });
+    
+    useMeta({ title: 'Dashboard' });
     const storeLogin = useUserStore()  
     const router = useRouter()
     login()
@@ -666,7 +669,7 @@ const options_7 = computed(() => {
 }
 .filtrosWebButton { 
  min-height: 43px;   
- margin-top: 20px;       
+ margin-top: 23px;       
 }
 .filtrosMobileButton { 
  margin-top: -20px;    

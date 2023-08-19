@@ -62,7 +62,7 @@ export default new createStore({
 
         toggleMenuStyle(state, value) {
             //horizontal|vertical|collapsible-vertical
-            value = value || '';
+            value = 'collapsible-vertical';
             localStorage.setItem('menu_style', value);
             state.menu_style = value;
             if (!value || value === 'vertical') {
