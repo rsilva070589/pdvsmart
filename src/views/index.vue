@@ -523,13 +523,15 @@
                 colors: ["#000000"]
               }              
             },
+             
+            colors: ['#5c1ac3'],
             
-            stroke: { show: true, width: 2, colors: ['transparent'] },
-            colors: ['#5c1ac3', '#ffbb44','#A52A2A','#5F9EA0'],
-            dropShadow: { enabled: true, opacity: 0.3, blur: 1, left: 1, top: 1, color: '#515365' },
+           
+
             plotOptions: {
               bar: {
-                borderRadius: 10,
+                columnWidth: '90%',
+                borderRadius: 0,
                 dataLabels: {
                   position: 'top', // top, center, bottom
                 },
