@@ -2,10 +2,10 @@
 
 <div style="padding: 20px;">
    <div v-if="!storeLogin.empresas?.sucess"  >    
-        Usuario esta Deslogado - {{ storeLogin.empresas?.sucess }}
+         Usuário Deslogado
     </div>
     <div v-if="storeLogin.empresas?.sucess == undefined"  >
-        Usuario esta Deslogado - {{ storeLogin.empresas?.sucess }}
+        Usuário indefinido
     </div>
 </div>
  
