@@ -77,7 +77,13 @@
 
 <Progress v-if="store.Progress"/> 
 
-  <div v-if="!store.relVendedores?.length > 0 && !store.Progress"
+  <div v-if="   !store.relVendedores?.length > 0 
+             && !store.Progress
+             && !store.relLoja?.length > 0 
+             && !store.relAnual?.length > 0 
+             && !store.relContas?.length > 0 
+             && !store.relLoja?.length > 0   
+             "
     style="text-align: center; font-size: 30px;"
     >
     Sem dados para exibir neste período...
