@@ -1,20 +1,20 @@
 <template>
+    
     <div>
         <!--  BEGIN NAVBAR  -->
         <div class="header-container fixed-top">
             <header class="header navbar navbar-expand-sm">
                 <ul class="navbar-item theme-brand flex-row text-center">
-                    <li class="nav-item theme-logo">
+                    <li class="nav-item theme-logo" >
                         <router-link to="/">
-                            <img width="156"
-                            height="56"
-                             src="https://pdvsmart.com.br/wp-content/uploads/2023/08/logo_barra_pdvsmart.png" class="navbar-logo" alt="logo" />
+                            <img    v-if="store.detectar_mobile()"
+                                    src="@/assets/images/logo.png" class="navbar-logo" alt="logo" />
                         </router-link>
                     </li>
-                    <li class="nav-item theme-text">
+                    <li class="nav-item theme-text" >
                         <img   width="156"
                             height="56"
-                            src="https://pdvsmart.com.br/wp-content/uploads/2023/08/logo_barra_pdvsmart.png" class="navbar-logo" alt="logo" />
+                            src="@/assets/images/logo_barra_pdvsmart.png" class="navbar-logo" alt="logo" />
                     </li>
                 </ul>
                 <div class="d-none horizontal-menu">
@@ -216,7 +216,7 @@
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="ddluser">
                      
                             <li role="presentation" @click="logout()">
-                                <router-link to=" " class="dropdown-item">
+                                <router-link to="/" class="dropdown-item">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="24"
@@ -312,9 +312,7 @@
                             <li>
                                 <router-link to="/"> {{ $t('sales') }} </router-link>
                             </li>
-                            <li>
-                                <router-link to="/index2">{{ $t('analytics') }}</router-link>
-                            </li>
+                           
                         </ul>
                     </li>
 
@@ -362,12 +360,7 @@
                             </svg>
                         </a>
                         <ul class="collapse submenu list-unstyled">
-                            <li><router-link to="/apps/chat">Chat</router-link></li>
-                            <li><router-link to="/apps/mailbox">Mailbox</router-link></li>
-                            <li><router-link to="/apps/todo-list">Todo List</router-link></li>
-                            <li><router-link to="/apps/notes">Notes</router-link></li>
-                            <li><router-link to="/apps/scrumboard">Scrumboard</router-link></li>
-                            <li><router-link to="/apps/contacts">Contacts</router-link></li>
+                           
 
                             <li class="sub-sub-submenu-list">
                                 <a href="javascript:;">
@@ -388,13 +381,9 @@
                                     </svg>
                                 </a>
                                 <ul class="collapse list-unstyled sub-submenu">
-                                    <li><router-link to="/apps/invoice/list">List</router-link></li>
-                                    <li><router-link to="/apps/invoice/preview">Preview</router-link></li>
-                                    <li><router-link to="/apps/invoice/add">Add</router-link></li>
-                                    <li><router-link to="/apps/invoice/edit">Edit</router-link></li>
+                              
                                 </ul>
-                            </li>
-                            <li><router-link to="/apps/calendar">Calendar</router-link></li>
+                            </li> 
                         </ul>
                     </li>
 
@@ -435,20 +424,7 @@
                             </svg>
                         </a>
                         <ul class="collapse submenu list-unstyled">
-                            <li><router-link to="/components/tabs">Tabs</router-link></li>
-                            <li><router-link to="/components/accordions">Accordions</router-link></li>
-                            <li><router-link to="/components/modals">Modals</router-link></li>
-                            <li><router-link to="/components/cards">Cards</router-link></li>
-                            <li><router-link to="/components/carousel">Carousel</router-link></li>
-                            <li><router-link to="/components/countdown">Countdown</router-link></li>
-                            <li><router-link to="/components/counter">Counter</router-link></li>
-                            <li><router-link to="/components/sweetalert">Sweet Alerts</router-link></li>
-                            <li><router-link to="/components/timeline">Timeline</router-link></li>
-                            <li><router-link to="/components/notifications">Notifications</router-link></li>
-                            <li><router-link to="/components/media-object">Media Object</router-link></li>
-                            <li><router-link to="/components/list-group">List Group</router-link></li>
-                            <li><router-link to="/components/pricing-table">Pricing Tables</router-link></li>
-                            <li><router-link to="/components/lightbox"> Lightbox </router-link></li>
+                        
                         </ul>
                     </li>
 
@@ -486,26 +462,7 @@
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                         </a>
-                        <ul class="collapse submenu list-unstyled">
-                            <li><router-link to="/elements/alerts">Alerts</router-link></li>
-                            <li><router-link to="/elements/avatar">Avatar</router-link></li>
-                            <li><router-link to="/elements/badges">Badges</router-link></li>
-                            <li><router-link to="/elements/breadcrumbs">Breadcrumbs</router-link></li>
-                            <li><router-link to="/elements/buttons">Buttons</router-link></li>
-                            <li><router-link to="/elements/buttons-group">Button Groups</router-link></li>
-                            <li><router-link to="/elements/color-library">Color Library</router-link></li>
-                            <li><router-link to="/elements/dropdown">Dropdown</router-link></li>
-                            <li><router-link to="/elements/infobox">Infobox</router-link></li>
-                            <li><router-link to="/elements/jumbotron">Jumbotron</router-link></li>
-                            <li><router-link to="/elements/loader">Loader</router-link></li>
-                            <li><router-link to="/elements/pagination">Pagination</router-link></li>
-                            <li><router-link to="/elements/popovers">Popovers</router-link></li>
-                            <li><router-link to="/elements/progress-bar">Progress Bar</router-link></li>
-                            <li><router-link to="/elements/search">Search</router-link></li>
-                            <li><router-link to="/elements/tooltips">Tooltips</router-link></li>
-                            <li><router-link to="/elements/treeview">Treeview</router-link></li>
-                            <li><router-link to="/elements/typography">Typography</router-link></li>
-                        </ul>
+                    
                     </li>
 
                     <li class="menu single-menu">
@@ -564,19 +521,7 @@
                                         <polyline points="9 18 15 12 9 6"></polyline>
                                     </svg>
                                 </a>
-                                <ul class="collapse list-unstyled sub-submenu">
-                                    <li><router-link to="/tables/basic">Basic</router-link></li>
-                                    <li><router-link to="/tables/striped">Striped Table</router-link></li>
-                                    <li><router-link to="/tables/order-sorting">Order Sorting</router-link></li>
-                                    <li><router-link to="/tables/multi-column">Multi Column</router-link></li>
-                                    <li><router-link to="/tables/multiple-tables">Multiple Tables</router-link></li>
-                                    <li><router-link to="/tables/alt-pagination">Alt. Pagination</router-link></li>
-                                    <li><router-link to="/tables/custom">Custom</router-link></li>
-                                    <li><router-link to="/tables/range-search">Range Search</router-link></li>
-                                    <li><router-link to="/tables/export">Export</router-link></li>
-                                    <li><router-link to="/tables/live-dom-ordering">Live DOM ordering</router-link></li>
-                                    <li><router-link to="/tables/miscellaneous">Miscellaneous</router-link></li>
-                                </ul>
+                           
                             </li>
                         </ul>
                     </li>
@@ -616,23 +561,7 @@
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                         </a>
-                        <ul class="collapse submenu list-unstyled">
-                            <li><router-link to="/forms/basic">Basic</router-link></li>
-                            <li><router-link to="/forms/input-group">Input Group</router-link></li>
-                            <li><router-link to="/forms/layouts">Layouts</router-link></li>
-                            <li><router-link to="/forms/validation">Validation</router-link></li>
-                            <li><router-link to="/forms/input-mask">Input Mask</router-link></li>
-                            <li><router-link to="/forms/select2">Select2</router-link></li>
-                            <li><router-link to="/forms/touchspin">TouchSpin</router-link></li>
-                            <li><router-link to="/forms/checkbox-radio">Checkbox &amp; Radio</router-link></li>
-                            <li><router-link to="/forms/switches">Switches</router-link></li>
-                            <li><router-link to="/forms/wizards">Wizards</router-link></li>
-                            <li><router-link to="/forms/file-upload">File Upload</router-link></li>
-                            <li><router-link to="/forms/quill-editor">Quill Editor</router-link></li>
-                            <li><router-link to="/forms/markdown-editor">Markdown Editor</router-link></li>
-                            <li><router-link to="/forms/date-picker">Date &amp; Range Picker </router-link></li>
-                            <li><router-link to="/forms/clipboard">Clipboard</router-link></li>
-                        </ul>
+                    
                     </li>
 
                     <li class="menu single-menu">
@@ -670,18 +599,7 @@
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                         </a>
-                        <ul class="collapse submenu list-unstyled">
-                            <li><router-link to="/pages/helpdesk">Helpdesk</router-link></li>
-                            <li><router-link to="/pages/contact-us">Contact Form</router-link></li>
-                            <li><router-link to="/pages/faq">FAQ</router-link></li>
-                            <li><router-link to="/pages/faq2">FAQ 2</router-link></li>
-                            <li><router-link to="/pages/privacy-policy">Privacy Policy</router-link></li>
-                            <li><a target="_blank" href="/pages/coming-soon">Coming Soon</a></li>
-                            <li><router-link to="/pages/blank-page">Blank Page</router-link></li>
-                            <li><router-link to="/pages/sample">Sample Page</router-link></li>
-
-                            <li><router-link to="/users/profile">Profile</router-link></li>
-                            <li><router-link to="/users/account-setting">Account Settings</router-link></li>
+                        <ul class="collapse submenu list-unstyled"> S
                             <li class="sub-sub-submenu-list">
                                 <a href="javascript:;" class="dropdown-toggle">
                                     Error
@@ -700,12 +618,7 @@
                                         <polyline points="9 18 15 12 9 6"></polyline>
                                     </svg>
                                 </a>
-                                <ul class="collapse list-unstyled sub-submenu">
-                                    <li><a target="_blank" href="/pages/error404">404</a></li>
-                                    <li><a target="_blank" href="/pages/error500">500</a></li>
-                                    <li><a target="_blank" href="/pages/error503">503</a></li>
-                                    <li><a target="_blank" href="/pages/maintenence">Maintanence</a></li>
-                                </ul>
+                                
                             </li>
                             <li class="sub-sub-submenu-list">
                                 <a href="javascript:;" class="dropdown-toggle">
@@ -840,15 +753,7 @@
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                         </a>
-                        <ul class="collapse submenu list-unstyled">
-                            <li><router-link to="/dragndrop">Drag and Drop</router-link></li>
-                            <li><router-link to="/widgets">Widgets</router-link></li>
-                            <li><router-link to="/charts/apex-chart">Charts</router-link></li>
-                            <li><router-link to="/font-icons">Font Icons</router-link></li>
-                            <li>
-                                <a target="_blank" href="https://cork-vue.sbthemes.com"> Documentation </a>
-                            </li>
-                        </ul>
+                       
                     </li>
                 </ul>
             </nav>
@@ -859,16 +764,17 @@
 
 <script setup>
     import { onMounted, ref } from 'vue';
-    import { useI18n } from 'vue-i18n';
-    import { useStore } from 'vuex';
+    import { useI18n } from 'vue-i18n'; 
     import { useRouter } from "vue-router"; 
     import { indexStore, useUserStore } from '../../store/indexStore' 
-    const store = useStore();
+    
     const storeLogin = useUserStore();
 
     const selectedLang = ref(null);
-    const countryList = ref(store.state.countryList);
-
+ 
+ const store = indexStore();
+ 
+ 
      
 const router = useRouter()
 

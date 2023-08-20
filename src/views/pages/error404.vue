@@ -1,6 +1,6 @@
 <template>
     <div class="layout-px-spacing">
-        <div class="error404 text-center">
+        <div class="text-center">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4 me-auto mt-5 text-md-start text-center">

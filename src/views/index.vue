@@ -16,11 +16,9 @@
                     </div>
                 </li>
             </ul>
-        </teleport>
- 
-   
-  <div   class="row align-items-center form-group " to="#breadcrumb"
-        >
+        </teleport> 
+        
+  <div  class="row align-items-center form-group " to="#breadcrumb" >
         <div class="form-group col-md-2">
             <label class="col-form-label">Empresa</label>
             
@@ -37,7 +35,7 @@
         </div> 
 
         <div class="form-group col-md-2"
-         v-bind:class="(store.layoutMobile) ? 'filtrosMobile' : 'filtrosWeb'"
+         v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
         
         >
             <label class="col-form-label"
@@ -45,14 +43,14 @@
             >Data Inicial</label>              
             <input type="date" v-model="store.filtro.dataInicial"  data-date-format="DD MM YYYY"
             class="mb-4 form-control flatpickr active w-100" 
-            v-bind:class="(store.layoutMobile) ? 'filtrosMobile' : 'filtrosWeb'"
+            v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
             style=" margin-top: -15px;"
         
             >
         </div> 
 
         <div class="form-group col-md-2"
-            v-bind:class="(store.layoutMobile) ? 'filtrosMobile' : 'filtrosWeb'"
+            v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
         
         >
             <label class="col-form-label"
@@ -61,7 +59,7 @@
             <input 
                 type="date" data-date-format="DD MM YYYY" v-model="store.filtro.dataFinal"  
                 class="mb-4 form-control flatpickr active w-100"
-                v-bind:class="(store.layoutMobile) ? 'filtrosMobile' : 'filtrosWeb'"
+                v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
                 style=" margin-top: -15px;"
                 > 
                 
@@ -69,7 +67,7 @@
 
         <div class="form-group col-md-2 align-items-center ">    
            <div class="btn btn-primary mb-4 form-control active w-300" 
-                v-bind:class="(store.layoutMobile) ? 'filtrosMobileButton' : 'filtrosWebButton'"                
+                v-bind:class="(store.detectar_mobile()) ? 'filtrosMobileButton' : 'filtrosWebButton'"                
                 @click="filtros()">
                ATUALIZAR
             </div>
@@ -352,7 +350,10 @@
     const store = indexStore(); 
       
     store.carregando = false
+
  
+
+
 
     function login (){
     if(storeLogin.empresas.sucess ) {
@@ -441,7 +442,7 @@
                 if(TypeRel == 4){ 
                     store.relContas = response.data.dados 
                 } 
-                if(store.layoutMobile){
+                if(store.detectar_mobile()){
                     window.scrollTo(0, 300);
                     console.log('window.scrollTo')
                 }
@@ -517,7 +518,7 @@
         
         return {
             chart: { height: 350,      type: 'bar'},
-            dataLabels: { enabled: !store.layoutMobile, formatter: function (val) {return "R$ " +formataDinheiro(val) },
+            dataLabels: { enabled: !store.detectar_mobile(), formatter: function (val) {return "R$ " +formataDinheiro(val) },
               offsetY: -20,
               style: {
                 fontSize: '11px',
@@ -587,7 +588,7 @@ const chartOptions = computed(() => {
               }
             },
             
-            dataLabels: { enabled: !store.layoutMobile, formatter: function (val) {return "R$ " +formataDinheiro(val) },
+            dataLabels: { enabled: !store.detectar_mobile(), formatter: function (val) {return "R$ " +formataDinheiro(val) },
             offsetY: -20,
             style: {fontSize: '11px',colors: ["#888EA8"]
               } },
