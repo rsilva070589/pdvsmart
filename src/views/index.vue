@@ -1,6 +1,15 @@
 <template> 
 
-<div v-if="storeLogin.empresas?.sucess"> 
+<div style="padding: 20px;">
+   <div v-if="!storeLogin.empresas?.sucess"  >    
+        Usuario esta Deslogado - {{ storeLogin.empresas?.sucess }}
+    </div>
+    <div v-if="storeLogin.empresas?.sucess == undefined"  >
+        Usuario esta Deslogado - {{ storeLogin.empresas?.sucess }}
+    </div>
+</div>
+ 
+<div v-if="storeLogin.empresas?.sucess && storeLogin.empresas?.sucess != undefined"> 
 
     <div class="layout-px-spacing dash_2">
         <teleport to="#breadcrumb">
@@ -311,11 +320,7 @@
                                         <circle cx="5" cy="12" r="1"></circle>
                                     </svg>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlVisitors">
-                                    <li><a href="javascript:;" class="dropdown-item">View</a></li>
-                                    <li><a href="javascript:;" class="dropdown-item">Update</a></li>
-                                    <li><a href="javascript:;" class="dropdown-item">Download</a></li>
-                                </ul>
+                               
                             </div>
                         </div>
                     </div>
@@ -362,13 +367,19 @@
 
 
     function login (){
-    if(storeLogin.empresas.sucess ) {
+    if(storeLogin.empresas?.sucess ) {
         console.log('usuario logado') 
         
-    }else{
+    }
+    if(!storeLogin.empresas?.sucess) {
         console.log('precisa fazer login')
         router.push('/auth/login') 
-    }
+    } 
+    if(storeLogin.empresas?.sucess == undefined) {
+        console.log('precisa fazer login')
+        router.push('/auth/login') 
+    } 
+         
   }
 
   function logout(){ 
