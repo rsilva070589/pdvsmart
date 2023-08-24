@@ -1,15 +1,7 @@
 <template> 
-
-<div style="padding: 20px;">
-   <div v-if="!storeLogin.empresas?.sucess"  >    
-         Usuário Deslogado
-    </div>
-    <div v-if="storeLogin.empresas?.sucess == undefined"  >
-        Usuário indefinido
-    </div>
-</div>
  
-<div v-if="storeLogin.empresas?.sucess && storeLogin.empresas?.sucess != undefined"> 
+ 
+<div v-if="storeLogin.empresas?.sucess == 'true'"> 
 
     <div class="layout-px-spacing dash_2">
         <teleport to="#breadcrumb">
@@ -27,7 +19,8 @@
             </ul>
         </teleport> 
         
-  <div  class="row align-items-center form-group " to="#breadcrumb" >
+  <div  v-if="storeLogin.empresas?.sucess == 'true'"
+        class="row align-items-center form-group " to="#breadcrumb" >
         <div class="form-group col-md-2">
             <label class="col-form-label">Empresa</label>
             
@@ -84,7 +77,7 @@
  
   </div>
 
-<Progress v-if="store.Progress"/> 
+<Progress v-if="store.Progress && storeLogin.empresas?.sucess == true"/> 
 
   <div v-if="   !store.relVendedores?.length > 0 
              && !store.Progress
@@ -340,8 +333,7 @@
     </div>
 </div>    
 </template>
-
-
+ 
 <script setup>
     import '@/assets/sass/widgets/widgets.scss';
     import { computed, ref } from 'vue';
@@ -355,30 +347,28 @@
     
     useMeta({ title: 'Dashboard' });
     const storeLogin = useUserStore()  
-    const router = useRouter()
-    login()
-
+    const router = useRouter() 
     const store = indexStore(); 
+    login()
       
-    store.carregando = false
-
- 
+    store.carregando = false 
 
 
 
     function login (){
-    if(storeLogin.empresas?.sucess ) {
-        console.log('usuario logado') 
-        
-    }
-    if(!storeLogin.empresas?.sucess) {
-        console.log('precisa fazer login')
-        router.push('/auth/login') 
-    } 
-    if(storeLogin.empresas?.sucess == undefined) {
-        console.log('precisa fazer login')
-        router.push('/auth/login') 
-    } 
+
+        switch (storeLogin.empresas?.sucess) {
+        case true:
+            console.log('usuario logado')  
+            break;
+        case 'true':
+            console.log('usuario logado')  
+             break; 
+        default:
+            console.log('precisa fazer login')
+            router.push('/auth/login') 
+        }
+ 
          
   }
 

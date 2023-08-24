@@ -1,5 +1,4 @@
 <template>
-    
     <div>
         <!--  BEGIN NAVBAR  -->
         <div class="header-container fixed-top">

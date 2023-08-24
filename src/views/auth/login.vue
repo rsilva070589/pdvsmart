@@ -1,5 +1,5 @@
 <template>
-
+ 
  
   <div v-if="store.alertLogin" @click="store.alertLogin=false"
     style="z-index: 1080" role="alert" aria-live="assertive" aria-atomic="true">
@@ -8,10 +8,7 @@
        Usuário ou Senha Incorretos!  
     </div>
 </div>
- 
- 
-
- 
+  
     
         <div class="form auth-boxed" @click="store.alertLogin=false">
             <div class="form-container outer">
@@ -122,7 +119,7 @@
         import { useMeta } from '@/composables/use-meta';
         import axios from 'axios';
       
-        useMeta({ title: 'Login Boxed' });
+        useMeta({ title: 'Login' });
         const store = indexStore();  
         const storeLogin = useUserStore();  
         
