@@ -53,10 +53,9 @@
                     </ul>
                 </li>
 
-                 
 
-                <li class="menu">
-                    <router-link to="/tables" class="dropdown-toggle" @click="toggleMobileMenu">
+          <li class="menu">
+                    <a class="dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#Relatorios" aria-controls="dashboard" aria-expanded="false">
                         <div class="">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -68,16 +67,43 @@
                                 stroke-width="2"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
-                                class="feather feather-layout"
+                                class="feather feather-home"
                             >
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="3" y1="9" x2="21" y2="9"></line>
-                                <line x1="9" y1="21" x2="9" y2="9"></line>
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
-                            <span>{{ $t('tables') }}</span>
+                            <span>{{ $t('Relatorios') }}</span>
                         </div>
-                    </router-link>
-                </li> 
+                        <div>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="feather feather-chevron-right"
+                            >
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <ul id="Relatorios" class="collapse submenu list-unstyled" data-bs-parent="#sidebar">
+                         
+                        <li>
+                            <router-link to="/dre" @click="toggleMobileMenu">
+                                {{ $t('DRE') }}
+                            </router-link>
+                        </li>
+                    </ul>
+          </li>
+                 
+ 
+             
                
             </perfect-scrollbar>
         </nav>

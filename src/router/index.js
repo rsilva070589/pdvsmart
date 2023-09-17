@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import Home from '../views/index.vue'; 
 import store from '../store';
+import Dre from '../views/relatorios/Dre.vue'
 
 // Vue.use(VueRouter);
 // import { createApp } from 'vue';
@@ -16,6 +17,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "auth-login" */ '../views/auth/login.vue'),
         meta: { layout: 'auth' },
     },
+    { path: '/dre', name: 'Dre', component: Dre },
 ]
 
 const router = new createRouter({
