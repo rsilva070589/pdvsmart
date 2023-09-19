@@ -56,7 +56,7 @@
 
  
      
- <div style=" height: 440px;  display: flex;" v-bind:style="[store.detectar_mobile() ? {'justify-content': 'center' } : {'justify-content': 'left' }]">
+ <div style=" min-height: 440px;  display: flex;" v-bind:style="[store.detectar_mobile() ? {'justify-content': 'center' } : {'justify-content': 'left' }]">
       <div v-if="store.Progress == false" style="margin-top: -30px;">
         <div v-if="store.relLoja?.length > 0 && store.dadosRel.length > 0" style="color: blue; font-size: 20px; text-align: center">
             {{ store.relLoja[store.indexVendas]?.identificacaointegracao }} 
@@ -73,7 +73,7 @@
                 </thead>
                 <tbody v-for="(item, i) in store.dadosRel" :key="item.name" role="rowgroup">
                     <tr role="row" class="">
-                        <td aria-colindex="1" role="cell" class="" style=" font-weight: bold ;" >{{ item.TIPO }}</td>
+                        <td aria-colindex="1" role="cell" class="" style="" >{{ item.TIPO }}</td>
                         <td aria-colindex="2" role="cell" style="text-align: end; font-weight: bold ;"  > <span :style="[item.COR == 'red' ? {'color': '#B22222' } : '#000000' ]" 
                                                                                                                 v-bind:style="[item.COR == 'blue' ? {'color': '#00008B' } : '#000000' ]" 
                                                                                                                 >R$ {{ item.DADOS }}</span> </td> 
