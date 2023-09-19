@@ -19,65 +19,30 @@
             </ul>
         </teleport> 
         
-  <div  v-if="storeLogin.empresas?.sucess == 'true'"
-        class="row align-items-center form-group " to="#breadcrumb" >
-        <div class="form-group col-md-2">
-            <label class="col-form-label">Empresa</label>
-            
-            <select   class="mb-4 form-control flatpickr active w-100 form-select"   
-                    v-model="store.filtro.empresa"            
-                    style=" margin-top: -15px;"
-                    >
-                    <option 
-                    v-for="emp, indexEmp in storeLogin.empresas.dadosempresa"
-                    :key="indexEmp"
-                    :value="emp.identificacaointegracao">{{emp.identificacaointegracao}}
-                    </option>               
-            </select>
-        </div> 
 
-        <div class="form-group col-md-2"
-         v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
-        
-        >
-            <label class="col-form-label"
-        
-            >Data Inicial</label>              
-            <input type="date" v-model="store.filtro.dataInicial"  data-date-format="DD MM YYYY"
-            class="mb-4 form-control flatpickr active w-100" 
-            v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
-            style=" margin-top: -15px;"
-        
-            >
-        </div> 
+        <div :style="[!store.detectar_mobile() ? {'display': 'flex' } : '']">
 
-        <div class="form-group col-md-2"
-            v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
-        
-        >
-            <label class="col-form-label"
-         
-            >Data Final</label>            
-            <input 
-                type="date" data-date-format="DD MM YYYY" v-model="store.filtro.dataFinal"  
-                class="mb-4 form-control flatpickr active w-100"
-                v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
-                style=" margin-top: -15px;"
-                > 
-                
-        </div> 
-
-        <div class="form-group col-md-2 align-items-center ">    
-           <div class="btn btn-primary mb-4 form-control active w-300" 
+            <Filtros  />
+      
+           <div class="form-group col-md-2 align-items-center"
+           v-bind:style="[!store.detectar_mobile() ? {'margin': '0px 0px 0px 20px' } : '' ]"
+           >    
+            <div class="btn btn-primary mb-4 form-control active w-250" 
                 v-bind:class="(store.detectar_mobile()) ? 'filtrosMobileButton' : 'filtrosWebButton'"                
                 @click="filtros()">
-               ATUALIZAR
+                ATUALIZAR
             </div>
-        </div> 
+        </div>  
+     
+        </div>
+     
  
-  </div>
+        
+        
+       
 
 <Progress v-if="store.Progress && storeLogin.empresas?.sucess == true"/> 
+
 
   <div v-if="   !store.relVendedores?.length > 0 
              && !store.Progress
@@ -344,6 +309,7 @@
     import axios from 'axios';
     import { useRouter } from "vue-router"; 
     import Progress from '@/components/Progress.vue';
+    import Filtros from './relatorios/Filtros.vue'
     
     useMeta({ title: 'Dashboard' });
     const storeLogin = useUserStore()  
@@ -352,7 +318,7 @@
     login()
       
     store.carregando = false 
-
+    store.esconderFiltroEmpresa = false
 
 
     function login (){
@@ -367,9 +333,7 @@
         default:
             console.log('precisa fazer login')
             router.push('/auth/login') 
-        }
- 
-         
+        } 
   }
 
   function logout(){ 
@@ -387,7 +351,8 @@
     }
 
     function filtros(){
-        if(storeLogin.empresas?.sucess){
+        store.dataErrada = false
+        if(storeLogin.empresas?.sucess && store.filtro.dataFinal >= store.filtro.dataInicial){
             store.relLoja = []
             store.relVendedores = []
             store.relAnual = []
@@ -397,20 +362,12 @@
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,2)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,3)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,4)
-        } 
+        } else{
+            store.dataErrada = true
+        }
     }
 
     filtros()
-    
-    function compare( a, b ) {
-        if ( a.quantidadevenda > b.quantidadevenda ){
-            return -1;
-        }
-        if ( a.quantidadevenda < b.quantidadevenda ){
-            return 1;
-        }
-        return 0;
-        }
     
     async function getTypeRel (DataBaseCliente,ComboEmpresas,DataInicial,DataFinal,TypeRel) {
             let data = JSON.stringify({
@@ -450,7 +407,7 @@
                     store.relContas = response.data.dados 
                 } 
                 if(store.detectar_mobile()){
-                    window.scrollTo(0, 300);
+                    window.scrollTo(0, 310);
                     console.log('window.scrollTo')
                 }
                 store.Progress = false
@@ -511,7 +468,7 @@
         return {
             chart:      { toolbar: { show: false }, zoom: { enabled: false }, }, 
             dataLabels: { enabled: false }, stroke: { curve: 'straight' },
-            title:      {  align: 'left', style: { fontWeight: 'normal' } },
+            title:      { align: 'left', style: { fontWeight: 'normal' } },
             grid:       { row: { colors: ['#f1f2f3', 'transparent'], opacity: 0.5 } },
             xaxis:      { categories: store.relVendedores.map(x => x.loginfuncionario)  },
         };
@@ -687,20 +644,15 @@ const options_7 = computed(() => {
 </script>
 
 <style>    
-.filtrosWeb { 
- min-height: 43px;        
-}
-.filtrosMobile { 
- margin-top: -30px;    
- min-height:  43px;    
-}
+ 
 .filtrosWebButton { 
  min-height: 43px;   
- margin-top: 23px;       
+ margin-top: 23px; 
 }
 .filtrosMobileButton { 
  margin-top: -20px;    
  min-height:  43px;    
 }
+ 
 </style>
 

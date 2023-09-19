@@ -1,7 +1,14 @@
 <template> 
  
+ <div v-if="store.dataErrada" @click="store.dataErrada=false"
+    style="z-index: 1080" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-body toast-danger   justify-content-between"
+    style="text-align: center;"> 
+    Data Final não pode ser menor que a Data Incial...
+    </div>
+</div>
  
-    <div v-if="storeLogin.empresas?.sucess == 'true'">  
+    <div v-if="storeLogin.empresas?.sucess == 'true'"  >  
         <div class="layout-px-spacing dash_2">
             <teleport to="#breadcrumb">
                 <ul class="navbar-nav flex-row">
@@ -17,73 +24,48 @@
                     </li>
                 </ul>
             </teleport> 
-            
-      <div  v-if="storeLogin.empresas?.sucess == 'true'"
-            class="row align-items-center form-group " to="#breadcrumb" > 
-    
-            <div class="form-group col-md-2"
-             v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
-            
-            >
-                <label class="col-form-label"
-            
-                >Data Inicial</label>              
-                <input type="date" v-model="store.filtro.dataInicial"  data-date-format="DD MM YYYY"
-                class="mb-4 form-control flatpickr active w-100" 
-                v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
-                style=" margin-top: -15px;"
-            
-                >
-            </div> 
-    
-            <div class="form-group col-md-2"
-                v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
-            
-            >
-                <label class="col-form-label"
-             
-                >Data Final</label>            
-                <input 
-                    type="date" data-date-format="DD MM YYYY" v-model="store.filtro.dataFinal"  
-                    class="mb-4 form-control flatpickr active w-100"
-                    v-bind:class="(store.detectar_mobile()) ? 'filtrosMobile' : 'filtrosWeb'"
-                    style=" margin-top: -15px;"
-                    > 
-                    
-            </div> 
-    
-            <div class="form-group col-md-2 align-items-center ">    
-               <div class="btn btn-primary mb-4 form-control active w-300" 
+
+         
+            <div :style="[!store.detectar_mobile() ? {'display': 'flex' } : '']"> 
+                <Filtros  />
+
+                <div class="form-group col-md-2 align-items-center"
+                v-bind:style="[!store.detectar_mobile() ? {'margin': '0px 0px 0px 10px' } : '' ]"
+                >    
+                <div class="btn btn-primary mb-4 form-control active w-250" 
                     v-bind:class="(store.detectar_mobile()) ? 'filtrosMobileButton' : 'filtrosWebButton'"                
                     @click="filtros()">
-                   ATUALIZAR
+                    ATUALIZAR
                 </div>
-            </div> 
+                </div>  
+
+                </div>
+       
+            
+         
      
-      </div>
-    
-    <Progress v-if="store.Progress && storeLogin.empresas?.sucess == true"/> 
+    <Progress v-if="store.Progress"/> 
     
       <div v-if="   !store.relVendedores?.length > 0 
                  && !store.Progress
                  && !store.relLoja?.length > 0 
                  && !store.relAnual?.length > 0 
-                 && !store.relContas?.length > 0 
-                 && !store.relLoja?.length > 0   
+                 && !store.relContas?.length > 0   
                  "
         style="text-align: center; font-size: 30px;"
         >
         Sem dados para exibir neste período...
       </div>
 
-      <div >
+     
+ <div style=" height: 430px;">
+      <div v-if="store.Progress == false" style="margin-top: -30px;">
         <div v-if="store.relLoja?.length > 0" style="color: blue; font-size: 20px; text-align: center">
             {{ store.relLoja[store.indexVendas]?.identificacaointegracao }} 
         </div>
-        <div v-if="!store.editando" style="display: flex; justify-content: center;">
- 
+        <div v-if="!store.editando" style="display: flex; justify-content: center;"> 
 
-        <div class="table-light table-responsive" style="width: 500px; background-color: #ffffff;">
+        <div class="table-light table-responsive" style="width: 500px;  background-color: #ffffff;">
             <table role="table" aria-busy="false" aria-colcount="5" class="table b-table table-hover" id="__BVID__310">
                 <thead role="rowgroup" class="">
                     <tr role="row" class="">
@@ -102,7 +84,6 @@
  
 
       </div>
-
       <div style="padding: 5px; font-size: 20px;   display: flex; justify-content: center;">
                    <div style="background-color: #ffffff; padding: 5px;"  @click="proximo()">
                     <div
@@ -113,19 +94,22 @@
                           
                     </div> 
                 </div>
+                
             <div v-for="(item, i) in store.relLoja" :key="item.DADOS">
                 <div style="background-color: #ffffff; padding: 5px;"  @click="selectEmpresa(i)">
-                    <div
-                          style="background-color: #dadfdf; text-align: center; border-radius:50%; width: 50px; height: 50px;"> 
+                    <div :class=" (store.indexVendas == i) ? 'itemSelecionado' : 'itemNaoSelecionado'"
+                          style="
+                                 text-align:        center; 
+                                 border-radius:50%; width: 50px; height: 50px;"> 
                           <div style="padding-top: 10px;">
-                            {{ i+1 }} 
+                                    {{ i+1 }}  
                           </div> 
                           
                     </div> 
                 </div>
             </div>
             <div style="background-color: #ffffff; padding: 5px;"  @click="anterior()">
-                    <div
+                    <div  
                           style="background-color: #dadfdf; text-align: center; border-radius:50%; width: 50px; height: 50px;"> 
                           <div style="padding-top: 10px;">
                             &gt; 
@@ -135,9 +119,8 @@
         </div>
         
 
-    </div>
-    
-            
+    </div> 
+            </div>
         </div>
     </div>    
     </template>
@@ -150,6 +133,8 @@
         import   axios from 'axios';
         import { useRouter } from "vue-router"; 
         import Progress from '@/components/Progress.vue';
+        import funcoesGlobais from './funcoesGlobais'
+        import Filtros from './Filtros.vue'
         
         useMeta({ title: 'Relatorios' });
         const storeLogin = useUserStore()  
@@ -159,8 +144,8 @@
           
         store.carregando = false 
         store.dadosRel = []
-    
-    
+        store.esconderFiltroEmpresa = true
+
         function login (){
     
             switch (storeLogin.empresas?.sucess) {
@@ -183,11 +168,32 @@
         router.push('/auth/login') 
       }
     
-       
-
-  onMounted(() => {
+   
+        
     store.indexVendas = 0 
-    async function getTypeRel (DataBaseCliente,ComboEmpresas,DataInicial,DataFinal,TypeRel) {
+
+
+  store.filtro= { 
+            empresa: 'CENTRAL',
+            dataInicial:  dataFormatada(new Date()),
+            dataFinal:    dataFormatada(new Date())
+        }
+
+    function filtros() {
+    store.dataErrada = false
+    if(storeLogin.empresas?.sucess && store.filtro.dataFinal >= store.filtro.dataInicial){
+        store.relLoja = []
+        store.relVendedores = []
+        store.relAnual = []
+        store.relContas = []
+        store.Progress = true        
+    getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,8)
+    }else{
+        store.dataErrada = true
+    }
+   }
+
+   async function getTypeRel (DataBaseCliente,ComboEmpresas,DataInicial,DataFinal,TypeRel) {
                 let data = JSON.stringify({
                 "databasecliente": DataBaseCliente,
                 "comboempresas": ComboEmpresas,
@@ -211,19 +217,17 @@
     
                 await axios.request(config)
                 .then((response) => {   
+                   
                     if(TypeRel == 8){ 
-                        store.relLoja = response.data.dados 
-
-                        selectEmpresa(0)
-
+                        store.relLoja = response.data.dados  
                         console.log(store.dadosRel)
-                    }                
-                    if(store.detectar_mobile()){
-                        window.scrollTo(0, 300);
-                        console.log('window.scrollTo')
-                    }
+                        selectEmpresa(0)
+                    }    
+                   
                     store.Progress = false
                     return response  
+
+                    
                 
                 })
                 .catch((error) => {
@@ -231,30 +235,7 @@
                 store.Progress = false
                 });  
         } 
-
-
-        store.filtro= { 
-            empresa: 'CENTRAL',
-            dataInicial:  dataFormatada('2023-09-01'),
-            dataFinal:    dataFormatada(new Date())
-        }
-    
-        function filtros(){
-            if(storeLogin.empresas?.sucess){
-                store.relLoja = []
-                store.relVendedores = []
-                store.relAnual = []
-                store.relContas = []
-                store.Progress = true        
-            getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,8)
-            } 
-        }
-
-        filtros()
-        
-  
-  })
-      
+ 
  
   function selectEmpresa (index) {
     store.indexVendas=index
@@ -268,6 +249,11 @@
                             { TIPO: 'Lucro Bruto Vendas',       DADOS: formataDinheiro(store.relLoja[index]?.lucrobrutosobrevenda) },
                             { TIPO: 'Despesas do Periodo (DP)', DADOS: formataDinheiro(store.relLoja[index]?.despesaperiodo) },
                         ]
+
+            if(store.detectar_mobile()){ 
+              window.scrollTo(0,230);
+
+        }     
   }
      
     
@@ -341,6 +327,12 @@ const anterior = ()=> {
     .filtrosMobileButton { 
      margin-top: -20px;    
      min-height:  43px;    
+    }
+    .itemSelecionado {
+        background-color: rgb(156, 156, 235);
+    }
+    .itemNaoSelecionado {
+        background-color: #dadfdf; 
     }
     </style>
     
