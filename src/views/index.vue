@@ -362,6 +362,10 @@
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,2)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,3)
         getTypeRel(storeLogin.empresas.databasecliente,store.filtro.empresa,store.filtro.dataInicial,store.filtro.dataFinal,4)
+        if(store.detectar_mobile()){
+                    window.scrollTo(0, 310);
+                    console.log('window.scrollTo')
+                }
         } else{
             store.dataErrada = true
         }
@@ -406,10 +410,7 @@
                 if(TypeRel == 4){ 
                     store.relContas = response.data.dados 
                 } 
-                if(store.detectar_mobile()){
-                    window.scrollTo(0, 310);
-                    console.log('window.scrollTo')
-                }
+               
                 store.Progress = false
                 return response  
             

@@ -46,26 +46,24 @@
      
     <Progress v-if="store.Progress"/> 
     
-      <div v-if="   !store.relVendedores?.length > 0 
-                 && !store.Progress
-                 && !store.relLoja?.length > 0 
-                 && !store.relAnual?.length > 0 
-                 && !store.relContas?.length > 0   
+      <div v-if="   !store.Progress
+                 && !store.relLoja?.length > 0  
                  "
-        style="text-align: center; font-size: 30px;"
+        style="text-align: ; font-size: 30px;"
         >
         Sem dados para exibir neste período...
       </div>
 
+ 
      
- <div style=" height: 430px;">
+ <div style=" height: 440px;  display: flex;" v-bind:style="[store.detectar_mobile() ? {'justify-content': 'center' } : {'justify-content': 'left' }]">
       <div v-if="store.Progress == false" style="margin-top: -30px;">
-        <div v-if="store.relLoja?.length > 0" style="color: blue; font-size: 20px; text-align: center">
+        <div v-if="store.relLoja?.length > 0 && store.dadosRel.length > 0" style="color: blue; font-size: 20px; text-align: center">
             {{ store.relLoja[store.indexVendas]?.identificacaointegracao }} 
         </div>
         <div v-if="!store.editando" style="display: flex; justify-content: center;"> 
 
-        <div class="table-light table-responsive" style="width: 500px;  background-color: #ffffff;">
+        <div class="table-light table-responsive" style="  background-color: #ffffff;" v-bind:style="[!store.detectar_mobile() ? {'width': '500px' } : '']">
             <table role="table" aria-busy="false" aria-colcount="5" class="table b-table table-hover" id="__BVID__310">
                 <thead role="rowgroup" class="">
                     <tr role="row" class="">
@@ -75,8 +73,10 @@
                 </thead>
                 <tbody v-for="(item, i) in store.dadosRel" :key="item.name" role="rowgroup">
                     <tr role="row" class="">
-                        <td aria-colindex="1" role="cell" class="">{{ item.TIPO }}</td>
-                        <td aria-colindex="2" role="cell" style="text-align: end;">{{ item.DADOS }}</td> 
+                        <td aria-colindex="1" role="cell" class="" style=" font-weight: bold ;" >{{ item.TIPO }}</td>
+                        <td aria-colindex="2" role="cell" style="text-align: end; font-weight: bold ;"  > <span :style="[item.COR == 'red' ? {'color': '#B22222' } : '#000000' ]" 
+                                                                                                                v-bind:style="[item.COR == 'blue' ? {'color': '#00008B' } : '#000000' ]" 
+                                                                                                                >R$ {{ item.DADOS }}</span> </td> 
                     </tr>
                 </tbody>
             </table>
@@ -86,6 +86,7 @@
       </div>
       <div style="padding: 5px; font-size: 20px;   display: flex; justify-content: center;">
                    <div style="background-color: #ffffff; padding: 5px;"  @click="proximo()">
+                    
                     <div
                           style="background-color: #dadfdf; text-align: center; border-radius:50%; width: 50px; height: 50px;"> 
                           <div style="padding-top: 10px;">
@@ -142,6 +143,7 @@
         const store = indexStore(); 
         login()
           
+        store.myColor = '#FF00FF';
         store.carregando = false 
         store.dadosRel = []
         store.esconderFiltroEmpresa = true
@@ -240,18 +242,19 @@
   function selectEmpresa (index) {
     store.indexVendas=index
     store.dadosRel =   [    
-                            { TIPO: 'Total Vendas Bruta',       DADOS: formataDinheiro(store.relLoja[index]?.vendabruta) },
-                            { TIPO: 'Descontos',                DADOS: formataDinheiro(store.relLoja[index]?.descontos) },
-                            { TIPO: 'Comissões (CS)',           DADOS: formataDinheiro(store.relLoja[index]?.comissoes) },
-                            { TIPO: 'Total Vendas Liquida',     DADOS: formataDinheiro(store.relLoja[index]?.vendaliquida) },
-                            { TIPO: 'CRM (Custo Mercadoria Vendida)', DADOS: formataDinheiro(store.relLoja[index]?.customercadoriavendida) },
-                            { TIPO: 'Taxas Cartão / Pgto',      DADOS: formataDinheiro(store.relLoja[index]?.taxacartao) },
-                            { TIPO: 'Lucro Bruto Vendas',       DADOS: formataDinheiro(store.relLoja[index]?.lucrobrutosobrevenda) },
-                            { TIPO: 'Despesas do Periodo (DP)', DADOS: formataDinheiro(store.relLoja[index]?.despesaperiodo) },
+                            { TIPO: 'Total Vendas Bruta (+)',       DADOS: formataDinheiro(store.relLoja[index]?.vendabruta), COR: 'blue'},
+                            { TIPO: 'Descontos (-)',                DADOS: formataDinheiro(store.relLoja[index]?.descontos) , COR: 'red'},
+                            { TIPO: 'Comissões (CS)(-)',           DADOS: formataDinheiro(store.relLoja[index]?.comissoes) , COR: 'red'},
+                            { TIPO: 'Total Vendas Liquida(=)',     DADOS: formataDinheiro(store.relLoja[index]?.vendaliquida) , COR: 'preto'},
+                            { TIPO: 'CMV (Custo Mercadoria Vendida)(-)', DADOS: formataDinheiro(store.relLoja[index]?.customercadoriavendida) , COR: 'blue'},
+                            { TIPO: 'Taxas Cartão / Pgto(-)',      DADOS: formataDinheiro(store.relLoja[index]?.taxacartao) , COR: 'red'},
+                            { TIPO: 'Lucro Bruto sobre Vendas(=)',       DADOS: formataDinheiro(store.relLoja[index]?.lucrobrutosobrevenda) , COR: 'preto'},
+                            { TIPO: 'Despesas do Periodo (DP)(-)', DADOS: formataDinheiro(store.relLoja[index]?.despesaperiodo) , COR: 'red'},
+                            { TIPO: 'Lucro Liquido(=)',            DADOS: formataDinheiro(store.relLoja[index]?.lucroliquido) , COR: 'preto'}
                         ]
 
             if(store.detectar_mobile()){ 
-              window.scrollTo(0,230);
+              window.scrollTo(0,3000);
 
         }     
   }
