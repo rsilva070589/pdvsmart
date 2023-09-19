@@ -63,7 +63,7 @@
         </div>
         <div v-if="!store.editando" style="display: flex; justify-content: center;"> 
 
-        <div class="table-light table-responsive" style="  background-color: #ffffff;" v-bind:style="[!store.detectar_mobile() ? {'width': '400px' } : '']">
+        <div  v-if="store.relLoja?.length > 0 && store.dadosRel.length > 0"  class="table-light table-responsive" style="  background-color: #ffffff;" v-bind:style="[!store.detectar_mobile() ? {'width': '400px' } : '']">
             <table role="table" aria-busy="false" aria-colcount="5" class="table b-table table-hover" id="__BVID__310">
                 <thead role="rowgroup" class="">
                     <tr role="row" class="">
@@ -84,7 +84,7 @@
  
 
       </div>
-      <div style="padding: 5px; font-size: 20px;   display: flex; justify-content: center;">
+      <div  v-if="store.relLoja?.length > 0 && store.dadosRel.length > 0" style="padding: 5px; font-size: 20px;   display: flex; justify-content: center;">
                    <div style="background-color: #ffffff; padding: 5px;"  @click="proximo()">
                     
                     <div
