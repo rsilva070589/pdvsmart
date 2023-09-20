@@ -146,7 +146,6 @@
         store.myColor = '#FF00FF';
         store.carregando = false 
         store.dadosRel = []
-        store.esconderFiltroEmpresa = true
 
         function login (){
     
