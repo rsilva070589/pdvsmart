@@ -192,6 +192,7 @@
     store.dataErrada = false
     if(storeLogin.empresas?.sucess && store.filtro.dataFinal >= store.filtro.dataInicial){
         store.relLoja = []
+        store.relMondado = []
         store.relVendedores = []
         store.relAnual = []
         store.relContas = []
