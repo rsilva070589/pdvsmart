@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/index.vue'; 
 import store from '../store';
 import Dre from '../views/relatorios/Dre.vue'
+import Terminal from '../views/relatorios/Terminal.vue'
 
 // Vue.use(VueRouter);
 // import { createApp } from 'vue';
@@ -18,6 +19,7 @@ const routes = [
         meta: { layout: 'auth' },
     },
     { path: '/dre', name: 'Dre', component: Dre },
+    { path: '/terminal', name: 'terminal', component: Terminal },
 ]
 
 const router = new createRouter({

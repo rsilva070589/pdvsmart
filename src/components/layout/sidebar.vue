@@ -100,6 +100,11 @@
                                 {{ $t('DRE') }}
                             </router-link>
                         </li>
+                        <li>
+                            <router-link to="/terminal" @click="toggleMobileMenu">
+                                {{ $t('TERMINAL') }}
+                            </router-link>
+                        </li>
                     </ul>
           </li>
                  
