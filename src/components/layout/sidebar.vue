@@ -105,6 +105,11 @@
                                 {{ $t('TERMINAL') }}
                             </router-link>
                         </li>
+                        <li>
+                            <router-link to="/comissao" @click="toggleMobileMenu">
+                                {{ $t('COMISSAO') }}
+                            </router-link>
+                        </li>
                     </ul>
           </li>
                  

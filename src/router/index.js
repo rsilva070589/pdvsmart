@@ -4,6 +4,7 @@ import Home from '../views/index.vue';
 import store from '../store';
 import Dre from '../views/relatorios/Dre.vue'
 import Terminal from '../views/relatorios/Terminal.vue'
+import Comissao from '../views/relatorios/Comissao.vue'
 
 // Vue.use(VueRouter);
 // import { createApp } from 'vue';
@@ -20,6 +21,7 @@ const routes = [
     },
     { path: '/dre', name: 'Dre', component: Dre },
     { path: '/terminal', name: 'terminal', component: Terminal },
+    { path: '/comissao', name: 'comissao', component: Comissao },
 ]
 
 const router = new createRouter({
