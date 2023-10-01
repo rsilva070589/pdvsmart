@@ -55,38 +55,42 @@
         Sem dados para exibir neste período...
       </div>
  
-      <div style=" min-height: 440px;  display: flex;" v-bind:style="[store.detectar_mobile() ? {'justify-content': 'center' } : {'justify-content': 'left' }]">
+ <div style=" min-height: 440px;  display: flex;" v-bind:style="[store.detectar_mobile() ? {'justify-content': 'center' } : {'justify-content': 'left' }]">
       <div v-if="store.Progress == false" style="margin-top: -30px;">
-        <div v-if="store.relMondado?.length > 0 && store.dadosRel.length > 0" style="color: blue; font-size: 20px; text-align: center">
-           
-             <div style="color: red; font-size: 20px; font-weight: bold;">
-                {{ store.relMondado[store.indexVendas]?.EMPRESA }}   
+        <div v-if="store.relLoja?.length > 0 && store.dadosRel.length > 0" style="color: blue; font-size: 20px; text-align: center">
+     
+     
         </div>
-        </div>
-        <div v-if="!store.editando" style="display: flex; justify-content: center;"> 
+        <div v-if="!store.editando" style="display: flex; justify-content: center;">  
+       
+        <div  v-if="store.relMondado?.length > 0 && store.relMondado.length > 0"  class="table-light table-responsive" style="  background-color: #ffffff;" v-bind:style="[!store.detectar_mobile() ? {'width': '400px' } : '']">
+        <div v-for="emp, indexEmp in store.relMondado">
 
-        <div  v-if="store.relMondado?.length > 0"  class="table-light table-responsive" style="  background-color: #ffffff;" v-bind:style="[!store.detectar_mobile() ? {'width': '400px' } : '']">
+        <div style="color: red; font-size: 20px; font-weight: bold;">
+         {{ emp.EMPRESA }}   
+        </div>
+        
+
             <table role="table" aria-busy="false" aria-colcount="5" class="table b-table table-hover" id="__BVID__310">
                 <thead role="rowgroup" class="">
                     <tr role="row" class="">
                         <th role="columnheader" scope="col" aria-colindex="1" class=""><div>Terminal</div></th>
-                        <th role="columnheader" scope="col" aria-colindex="2"  style="text-align: end;"><div>Valor</div></th>                       
+                        <th role="columnheader" scope="col" aria-colindex="2" style="text-align: end;" class=""><div>Valor</div></th>                       
                     </tr>
                 </thead>
-                <tbody v-for="(item, i) in store.relMondado[store.indexVendas].REGISTRO" :key="item.name" role="rowgroup">
+                <tbody v-for="(item, i) in emp.REGISTRO" :key="item.cdterminal" role="rowgroup">
                     <tr role="row" class="">
-                        <td aria-colindex="1" role="cell" class="" style=" font-weight: bold ; text-align: center;" >{{ item.cdterminal }}</td>
-                        <td aria-colindex="2" role="cell" style="text-align: end; font-weight: bold ;"  > <span :style="[item.COR == 'red' ? {'color': '#B22222' } : '#000000' ]" 
-                                                                                                                v-bind:style="[item.COR == 'blue' ? {'color': '#00008B' } : '#000000' ]" 
-                                                                                                                >R$ {{ formataDinheiro(item.valor) }}</span> </td> 
+                        <td aria-colindex="1" role="cell" class="" style=" font-weight: bold ;" >{{ item.cdterminal }}</td>
+                        <td aria-colindex="2" role="cell" style="text-align: end; font-weight: bold ;"  > R$ {{ formataDinheiro(item.valor) }}  </td> 
                     </tr>
                 </tbody>
             </table>
         </div>
+        </div>
  
 
       </div>
-      <div  v-if="store.relMondado?.length > 0" style="padding: 5px; font-size: 20px;   display: flex; justify-content: center;">
+      <div  v-if="store.relLoja?.length > 0 && store.dadosRel.length > 0" style="padding: 5px; font-size: 20px;   display: flex; justify-content: center;">
                    <div style="background-color: #ffffff; padding: 5px;"  @click="proximo()">
                     
                     <div
@@ -98,7 +102,7 @@
                     </div> 
                 </div>
                 
-            <div v-for="(item, i) in store.relMondado" :key="item.DADOS">
+            <div v-for="(item, i) in store.relLoja" :key="item.DADOS">
                 <div style="background-color: #ffffff; padding: 5px;"  @click="selectEmpresa(i)">
                     <div :class=" (store.indexVendas == i) ? 'itemSelecionado' : 'itemNaoSelecionado'"
                           style="
@@ -120,10 +124,11 @@
                     </div> 
                 </div>
         </div>
-        
+     
+  
 
     </div> 
-  </div>
+            </div>
         </div>
     </div>    
     </template>
@@ -314,7 +319,7 @@
         }
 
 const anterior = ()=> {   
-   if (store.indexVendas < store.relMondado?.length -1) {
+   if (store.indexVendas < store.relLoja?.length -1) {
      store.indexVendas = store.indexVendas +1
      selectEmpresa(store.indexVendas)
      console.log('index Empresa: '+store.indexVendas)
